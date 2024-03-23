@@ -1,0 +1,12 @@
+.env
+
+# Go build files
+dist/
+tmp/
+
+# Ignore templ generated files
+*_templ.go
+*_templ.txt
+
+
+
