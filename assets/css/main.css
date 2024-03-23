@@ -1,0 +1,39 @@
+@font-face {
+  font-family: oswald;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url(/assets/fonts/oswald.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: lora;
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+  src: url(/assets/fonts/lora.ttf) format("truetype");
+}
+
+h1 {
+  font-family: oswald, impact;
+  font-size: calc(2em + 5vw);
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+  color: #67b7d1;
+}
+
+.spiel {
+  text-align: center;
+  max-width: 90ch;
+  margin: 0 auto;
+  text-wrap: balance;
+  line-height: 1.3;
+}
+
+body {
+  padding: 1em;
+  font-family: lora, sans-serif;
+  font-style: normal;
+  font-optical-sizing: auto;
+}
