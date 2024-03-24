@@ -1,0 +1,21 @@
+version: "3"
+
+tasks:
+  reboot:
+    cmds:
+      - rm -rf pb_data
+      - go run . serve
+  start:
+    cmds:
+      - templ generate
+      - go run . serve
+  watch:templ:
+    cmds:
+      - templ generate --watch --proxy="http://127.0.0.1:8090"
+  watch:pb:
+    cmds:
+      - air serve
+  watch:all:
+    deps: [watch:templ, watch:pb]
+    cmds:
+      - echo "watching pb"
