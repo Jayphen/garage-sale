@@ -1,5 +1,8 @@
 package layouts
 
+import "garagesale.jayphen.dev/model"
+import "garagesale.jayphen.dev/assets/templ/pages"
+
 templ layout_base() {
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +22,7 @@ templ layout_base() {
 </html>
 }
 
-templ Layout() {
+templ Layout(items []*model.Item) {
 @layout_base() {
 <h1>Buy my things</h1>
 <main class="spiel">
@@ -39,6 +42,7 @@ templ Layout() {
     exchange for one of the things I have purchased in that future life.
   </p>
   <p>Thank you for visiting my internet website, and I hope to see you again some day.</p>
+  @pages.ItemsList(items)
 </main>
 }
 }

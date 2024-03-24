@@ -37,3 +37,18 @@ body {
   font-style: normal;
   font-optical-sizing: auto;
 }
+
+.items {
+  margin-top: 2em;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1em;
+
+  & .item {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 1em;
+    text-align: left;
+    font-size: 0.9em;
+  }
+}

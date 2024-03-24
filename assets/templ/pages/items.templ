@@ -1,0 +1,22 @@
+package pages
+
+import (
+"garagesale.jayphen.dev/model"
+"strconv"
+)
+
+templ ItemsList(items []*model.Item) {
+<div class="items">
+  for _, i := range items {
+  @ItemCard(i)
+  }
+</div>
+}
+
+templ ItemCard(i *model.Item) {
+<div class="item">
+  <h3>{ i.Title }</h3>
+  <p>{ i.Description }</p>
+  <p>€{ strconv.Itoa(i.Price) }ish</p>
+</div>
+}
