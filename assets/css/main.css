@@ -28,7 +28,6 @@ h1 {
   max-width: 90ch;
   margin: 0 auto;
   text-wrap: balance;
-  line-height: 1.3;
 }
 
 body {
@@ -36,6 +35,7 @@ body {
   font-family: lora, sans-serif;
   font-style: normal;
   font-optical-sizing: auto;
+  line-height: 1.3;
 }
 
 .items {
@@ -44,11 +44,47 @@ body {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1em;
 
-  & .item {
+  .item {
     border-radius: 5px;
     border: 1px solid #ccc;
     padding: 1em;
     text-align: left;
     font-size: 0.9em;
+    display: grid;
+    grid-template-rows: 1fr min-content;
   }
+
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  .price {
+    flex-grow: 1;
+    font-family: oswald;
+    text-transform: uppercase;
+    color: #d5562a;
+  }
+
+  .stack {
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+
+  button {
+    height: max-content;
+    padding: 0.5em;
+    margin: 0;
+    border: 1px solid #ccc;
+    background: transparent;
+    border-radius: 3px;
+    font-family: oswald;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+}
+
+.stack {
+  display: flex;
 }

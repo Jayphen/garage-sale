@@ -3,6 +3,7 @@ package pages
 import (
 "garagesale.jayphen.dev/model"
 "strconv"
+"fmt"
 )
 
 templ ItemsList(items []*model.Item) {
@@ -15,8 +16,16 @@ templ ItemsList(items []*model.Item) {
 
 templ ItemCard(i *model.Item) {
 <div class="item">
-  <h3>{ i.Title }</h3>
-  <p>{ i.Description }</p>
-  <p>€{ strconv.Itoa(i.Price) }ish</p>
+  <div>
+    for _, im := range i.Images {
+    <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
+    }
+    <h3>{ i.Title }</h3>
+    <p>{ i.Description }</p>
+  </div>
+  <div class="stack">
+    <p class="price">€{ strconv.Itoa(i.Price) }ish</p>
+    <button>Claim it</button>
+  </div>
 </div>
 }
