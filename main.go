@@ -6,6 +6,7 @@ import (
 
 	"garagesale.jayphen.dev/assets/templ/layouts"
 	"garagesale.jayphen.dev/assets/templ/pages"
+	"garagesale.jayphen.dev/handlers"
 	"garagesale.jayphen.dev/model"
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v5"
@@ -16,9 +17,12 @@ import (
 func main() {
 	app := pocketbase.New()
 
+	handlers.RegisterBidHandlers(app)
+
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.GET("/", HomeHandler(e))
 		e.Router.GET("/items", ItemsGet(e))
+
 		e.Router.Static("/assets", "assets")
 
 		return nil

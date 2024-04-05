@@ -15,7 +15,7 @@ templ ItemsList(items []*model.Item) {
 }
 
 templ ItemCard(i *model.Item) {
-<div class="item">
+<div class="item" data-item-id={ i.Id }>
   <div>
     for _, im := range i.Images {
     <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
@@ -25,7 +25,12 @@ templ ItemCard(i *model.Item) {
   </div>
   <div class="stack">
     <p class="price">€{ strconv.Itoa(i.Price) }ish</p>
-    <button>Claim it</button>
+    <form hx-post="bid">
+      <input type="hidden" value={ i.Id } name="item_id" />
+      <input type="hidden" value="hi@jayphen.com" name="bidder_email" />
+      <input type="hidden" value="20" name="amount" />
+      <button>Claim it</button>
+    </form>
   </div>
 </div>
 }
