@@ -7,7 +7,7 @@ import (
 )
 
 templ ItemsList(items []*model.Item) {
-	<div class="items" hx-get="items" hx-swap="outerHTML" hx-trigger="sse:message">
+	<div class="items">
 		for _, i := range items {
 			@ItemCard(i)
 		}
@@ -30,7 +30,7 @@ templ ItemCard(i *model.Item) {
 			}
 			<header>
 				<h3>{ i.Title }</h3>
-				<p>{ i.Description } - €{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</p>
+				<p>{ i.Description }</p>
 			</header>
 		</div>
 		<div class="actions">
@@ -40,7 +40,7 @@ templ ItemCard(i *model.Item) {
 					<input type="hidden" value={ i.Id } name="item_id"/>
 					<input type="hidden" value="hi@jayphen.com" name="bidder_email"/>
 					<input type="hidden" value="80" name="amount"/>
-					<button type="submit">Make a bid</button>
+					<button type="submit">Buy</button>
 				</form>
 			</div>
 		</div>
@@ -48,9 +48,7 @@ templ ItemCard(i *model.Item) {
 }
 
 templ Price(i *model.Item) {
-	if getLatestBid(i) != "" {
-		<p class="price">Latest bid: <span class="val">€{ getLatestBid(i) }</span></p>
-	} else {
-		<p class="price"><span class="val">€{ strconv.Itoa(i.Price) }</span>ish</p>
-	}
+	<p class="price" hx-get={ fmt.Sprintf("/items/%s/price", i.Id) } hx-swap="outerHTML" hx-trigger="sse:message">
+		Current price: <span class="val">€{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</span>
+	</p>
 }

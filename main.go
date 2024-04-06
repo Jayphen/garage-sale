@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"garagesale.jayphen.dev/assets/templ/layouts"
-	"garagesale.jayphen.dev/assets/templ/pages"
 	"garagesale.jayphen.dev/crontab"
 	"garagesale.jayphen.dev/handlers"
 	"garagesale.jayphen.dev/model"
@@ -20,13 +19,13 @@ func main() {
 	app := pocketbase.New()
 
 	handlers.RegisterBidHandlers(app)
+	handlers.RegisterItemsHandlers(app)
 	handlers.RegisterSSEHandlers(app)
+
 	crontab.RegisterCronJobs(app)
 
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.GET("/", HomeHandler(e))
-		e.Router.GET("/items", ItemsGet(e))
-
 		e.Router.Static("/assets", "assets")
 
 		return nil
@@ -47,16 +46,5 @@ func HomeHandler(e *core.ServeEvent) func(echo.Context) error {
 		}
 
 		return utils.Render(c, http.StatusOK, layouts.Layout(items))
-	}
-}
-
-func ItemsGet(e *core.ServeEvent) func(echo.Context) error {
-	return func(c echo.Context) error {
-		items, err := (&model.Item{}).GetItems(e.App.Dao())
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		return utils.Render(c, 200, pages.ItemsList(items))
 	}
 }

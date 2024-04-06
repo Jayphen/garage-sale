@@ -95,9 +95,10 @@ body {
   }
 
   .price {
-    flex-grow: 1;
     font-family: var(--font-sans);
     font-size: var(--font-size-1);
+    padding: var(--size-1);
+    border-radius: var(--radius-2);
 
     .val {
       color: var(--lime-9);
@@ -140,4 +141,17 @@ body {
 
 .stack {
   display: flex;
+}
+
+.htmx-highlight {
+  animation: highlight 30s;
+}
+
+@keyframes highlight {
+  from {
+    background-color: var(--yellow-2);
+  }
+  to {
+    background-color: transparent;
+  }
 }

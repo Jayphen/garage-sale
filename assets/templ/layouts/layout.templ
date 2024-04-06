@@ -16,6 +16,17 @@ templ layout_base() {
 		</head>
 		<body hx-ext="sse" sse-connect="events">
 			{ children... }
+			<script>
+    document.body.addEventListener('htmx:afterSwap', function (event) {
+      // Apply the highlight effect to the swapped element
+      var swappedElement = event.detail.elt; // This is the element that was swapped
+      swappedElement.classList.add('htmx-highlight');
+
+      swappedElement.addEventListener('animationend', function () {
+        swappedElement.classList.remove('htmx-highlight');
+      });
+    });
+  </script>
 		</body>
 	</html>
 }
