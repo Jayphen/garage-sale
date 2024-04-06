@@ -7,9 +7,10 @@ import (
 
 type Bid struct {
 	models.BaseModel
-	BidderEmail string `db:"bidder_email" json:"bidderEmail"`
-	ItemId      string `db:"item_id" json:"itemId"`
-	Amount      int    `db:"amount" json:"amount"`
+	Id          string `db:"id" json:"id"`
+	BidderEmail string `db:"bidder_email" json:"bidder_email"`
+	ItemId      string `db:"item_id" json:"item_id"`
+	Amount      string `db:"amount" json:"amount"`
 }
 
 var _ models.Model = (*Bid)(nil)

@@ -1,7 +1,11 @@
 package handlers
 
 import (
+	"garagesale.jayphen.dev/assets/templ/pages"
+	"garagesale.jayphen.dev/model"
+	"garagesale.jayphen.dev/utils"
 	"github.com/labstack/echo/v5"
+	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
@@ -43,7 +47,22 @@ func RegisterBidHandlers(app *pocketbase.PocketBase) {
 				return apis.NewBadRequestError("Failed to submit bid", err)
 			}
 
-			return nil
+			item, err := (&model.Item{}).FindItemById(app.Dao(), postData.ItemId)
+			if err != nil {
+				return err
+			}
+
+			{
+				var bids []*model.Bid
+
+				err := app.Dao().ModelQuery(&model.Bid{}).Where(dbx.HashExp{"item_id": item.Id}).All(&bids)
+				if err != nil {
+					return err
+				}
+				item.Bids = bids
+			}
+
+			return utils.Render(c, 201, pages.Price(item))
 		})
 
 		return nil

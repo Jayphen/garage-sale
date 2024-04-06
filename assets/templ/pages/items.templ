@@ -1,36 +1,52 @@
 package pages
 
 import (
-"garagesale.jayphen.dev/model"
-"strconv"
-"fmt"
+	"garagesale.jayphen.dev/model"
+	"strconv"
+	"fmt"
 )
 
 templ ItemsList(items []*model.Item) {
-<div class="items">
-  for _, i := range items {
-  @ItemCard(i)
-  }
-</div>
+	<div class="items">
+		for _, i := range items {
+			@ItemCard(i)
+		}
+	</div>
+}
+
+func getLatestBid(i *model.Item) string {
+	if len(i.Bids) > 0 {
+		latestBid := i.Bids[len(i.Bids)-1]
+		return latestBid.Amount
+	}
+	return ""
 }
 
 templ ItemCard(i *model.Item) {
-<div class="item" data-item-id={ i.Id }>
-  <div>
-    for _, im := range i.Images {
-    <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
-    }
-    <h3>{ i.Title }</h3>
-    <p>{ i.Description }</p>
-  </div>
-  <div class="stack">
-    <p class="price">€{ strconv.Itoa(i.Price) }ish</p>
-    <form hx-post="bid">
-      <input type="hidden" value={ i.Id } name="item_id" />
-      <input type="hidden" value="hi@jayphen.com" name="bidder_email" />
-      <input type="hidden" value="20" name="amount" />
-      <button>Claim it</button>
-    </form>
-  </div>
-</div>
+	<div class="item" data-item-id={ i.Id }>
+		<div>
+			for _, im := range i.Images {
+				<img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items", i.Id, im) } alt=""/>
+			}
+			<h3>{ i.Title }</h3>
+			<p>{ i.Description }</p>
+		</div>
+		<div class="stack">
+			@Price(i)
+			<form hx-post="/bid" hx-target=".price" hx-swap="outerHTML">
+				<input type="hidden" value={ i.Id } name="item_id"/>
+				<input type="hidden" value="hi@jayphen.com" name="bidder_email"/>
+				<input type="hidden" value="20" name="amount"/>
+				<button type="submit">Get it</button>
+			</form>
+		</div>
+	</div>
+}
+
+templ Price(i *model.Item) {
+	if getLatestBid(i) != "" {
+		<p clas="price">Latest bid: €{ getLatestBid(i) }</p>
+	} else {
+		<p class="price">€{ strconv.Itoa(i.Price) }ish</p>
+	}
 }
