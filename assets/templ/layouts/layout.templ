@@ -34,24 +34,12 @@ templ layout_base() {
 templ Layout(items []*model.Item) {
 	@layout_base() {
 		<h1>Buy my things</h1>
+		<p style="margin: auto; color: var(--gray-7)">
+			<strong>How this works:</strong> the opening hours of the store at 09:00-21:00. Prices drop every 2 minutes, and
+			reset every evening. When you
+			click buy, you lock in that price. You could wait for it to get cheaper, but someone else might snap up that sweet
+			item that you desired. I would recommend buying things at the highest price possible, just to be safe.
+		</p>
 		@pages.ItemsList(items)
-		<div class="spiel">
-			<p>Hello, my friend. If you are here it may be because you are interested in buying my things.</p>
-			<p>
-				My things are things that have been loved. Most of them were purchased and lived with me here in Vienna after
-				painstakingly extensive research in to their utility. I can vouch for the usefulness of these things.
-			</p>
-			<p>
-				Some of these things may be unused. In the case of such things, flaws were found in the robustness of my research.
-				This is not a comment on the usefulness of said thing, but their existence on this website can be taken as an
-				insight in to the fallibility of man.
-			</p>
-			<p>
-				I probably will not be able to accept returns of things should you purchase them from me, due to my being on the
-				other side of the world. However if you do find yourself in Sydney with one of my ex-things, I will consider an
-				exchange for one of the things I have purchased in that future life.
-			</p>
-			<p>Thank you for visiting my internet website, and I hope to see you again some day.</p>
-		</div>
 	}
 }
