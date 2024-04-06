@@ -30,7 +30,7 @@ templ ItemCard(i *model.Item) {
 			}
 			<header>
 				<h3>{ i.Title }</h3>
-				<p>{ i.Description }</p>
+				<p>{ i.Description } - €{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</p>
 			</header>
 		</div>
 		<div class="actions">

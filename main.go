@@ -7,6 +7,7 @@ import (
 
 	"garagesale.jayphen.dev/assets/templ/layouts"
 	"garagesale.jayphen.dev/assets/templ/pages"
+	"garagesale.jayphen.dev/crontab"
 	"garagesale.jayphen.dev/handlers"
 	"garagesale.jayphen.dev/model"
 	"garagesale.jayphen.dev/utils"
@@ -19,6 +20,7 @@ func main() {
 	app := pocketbase.New()
 
 	handlers.RegisterBidHandlers(app)
+	crontab.RegisterCronJobs(app)
 
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.GET("/", HomeHandler(e))
