@@ -1,3 +1,10 @@
+/* the props */
+@import "https://unpkg.com/open-props";
+
+/* optional imports that use the props */
+@import "https://unpkg.com/open-props/normalize.min.css";
+@import "https://unpkg.com/open-props/buttons.min.css";
+
 @font-face {
   font-family: oswald;
   font-style: normal;
@@ -15,73 +22,119 @@
 }
 
 h1 {
-  font-family: oswald, impact;
-  font-size: calc(2em + 5vw);
-  margin: 0;
-  font-weight: 700;
+  font-size: calc(2 * var(--font-size-fluid-3));
+  line-height: var(--font-lineheight-0);
+  margin: 0 auto;
+  font-weight: var(--font-weight-6);
   text-align: center;
-  color: #67b7d1;
+  color: var(--indigo-6);
 }
 
 .spiel {
-  text-align: center;
-  max-width: 90ch;
-  margin: 0 auto;
-  text-wrap: balance;
+  justify-content: center;
+  display: grid;
+  gap: var(--size-3);
+  margin-top: var(--size-8);
+  color: var(--stone-11);
+  p {
+    font-size: var(--font-size-1);
+  }
 }
 
 body {
+  background: var(--sand-0);
   padding: 1em;
-  font-family: lora, sans-serif;
+  font-family: var(--font-sans);
   font-style: normal;
   font-optical-sizing: auto;
   line-height: 1.3;
+  color: var(--stone-9);
 }
 
 .items {
-  margin-top: 2em;
+  max-width: 120ch;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1em;
+  gap: var(--size-3);
+  margin-top: var(--size-10);
 
   .item {
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    padding: 1em;
+    border-radius: var(--radius-2);
     text-align: left;
-    font-size: 0.9em;
+    overflow: hidden;
     display: grid;
     grid-template-rows: 1fr min-content;
+    background: var(--stone-2);
+    line-height: var(--font-lineheight-2);
+  }
+
+  header,
+  .stack {
+    padding: var(--size-3);
+  }
+
+  p {
+    font-size: var(--font-size-1);
+    font-family: var(--font-sans);
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: var(--ratio-widescreen);
+    object-fit: cover;
   }
 
   h3 {
     margin: 0;
     padding: 0;
+    font-weight: var(--font-weight-7);
+    font-size: var(--font-size-4);
+    line-height: var(--font-lineheight-2);
+    color: var(--stone-11);
   }
 
   .price {
     flex-grow: 1;
-    font-family: oswald;
-    text-transform: uppercase;
-    color: #d5562a;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-1);
+
+    .val {
+      color: var(--lime-9);
+      font-weight: var(--font-weight-7);
+    }
   }
 
-  .stack {
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
+  .actions {
+    margin: var(--size-2);
+    background: var(--sand-0);
+    padding: var(--size-3);
+    border-radius: var(--radius-2);
+
+    .stack {
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+      padding: 0;
+    }
   }
 
   button {
     height: max-content;
-    padding: 0.5em;
+    padding-inline: var(--size-5);
     margin: 0;
-    border: 1px solid #ccc;
-    background: transparent;
-    border-radius: 3px;
-    font-family: oswald;
-    text-transform: uppercase;
+    background: var(--indigo-9);
     cursor: pointer;
+    font-family: var(--font-sans);
+    color: var(--sand-0);
+    text-shadow: none;
+    border: 0;
+    font-weight: var(--font-weight-5);
+    border-radius: var(--radius-2);
+
+    &:hover {
+      background: var(--indigo-7);
+    }
   }
 }
 

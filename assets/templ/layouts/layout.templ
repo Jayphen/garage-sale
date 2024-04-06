@@ -4,45 +4,42 @@ import "garagesale.jayphen.dev/model"
 import "garagesale.jayphen.dev/assets/templ/pages"
 
 templ layout_base() {
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="/assets/js/htmx.min.js"></script>
-  <link rel="stylesheet" href="/assets/css/main.css" type="text/css" />
-  <title>Jayphen's Garage Sale, everything must go</title>
-</head>
-
-<body>
-  { children... }
-</body>
-
-</html>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<script src="/assets/js/htmx.min.js"></script>
+			<link rel="stylesheet" href="/assets/css/main.css" type="text/css"/>
+			<title>Jayphen's Garage Sale, everything must go</title>
+		</head>
+		<body>
+			{ children... }
+		</body>
+	</html>
 }
 
 templ Layout(items []*model.Item) {
-@layout_base() {
-<h1>Buy my things</h1>
-<main class="spiel">
-  <p>Hello, my friend. If you are here it may be because you are interested in buying my things.</p>
-  <p>
-    My things are things that have been loved. Most of them were purchased and lived with me here in Vienna after
-    painstakingly extensive research in to their utility. I can vouch for the usefulness of these things.
-  </p>
-  <p>
-    Some of these things may be unused. In the case of such things, flaws were found in the robustness of my research.
-    This is not a comment on the usefulness of said thing, but their existence on this website can be taken as an
-    insight in to the fallibility of man.
-  </p>
-  <p>
-    I probably will not be able to accept returns of things should you purchase them from me, due to my being on the
-    other side of the world. However if you do find yourself in Sydney with one of my ex-things, I will consider an
-    exchange for one of the things I have purchased in that future life.
-  </p>
-  <p>Thank you for visiting my internet website, and I hope to see you again some day.</p>
-  @pages.ItemsList(items)
-</main>
-}
+	@layout_base() {
+		<h1>Buy my things</h1>
+		@pages.ItemsList(items)
+		<div class="spiel">
+			<p>Hello, my friend. If you are here it may be because you are interested in buying my things.</p>
+			<p>
+				My things are things that have been loved. Most of them were purchased and lived with me here in Vienna after
+				painstakingly extensive research in to their utility. I can vouch for the usefulness of these things.
+			</p>
+			<p>
+				Some of these things may be unused. In the case of such things, flaws were found in the robustness of my research.
+				This is not a comment on the usefulness of said thing, but their existence on this website can be taken as an
+				insight in to the fallibility of man.
+			</p>
+			<p>
+				I probably will not be able to accept returns of things should you purchase them from me, due to my being on the
+				other side of the world. However if you do find yourself in Sydney with one of my ex-things, I will consider an
+				exchange for one of the things I have purchased in that future life.
+			</p>
+			<p>Thank you for visiting my internet website, and I hope to see you again some day.</p>
+		</div>
+	}
 }

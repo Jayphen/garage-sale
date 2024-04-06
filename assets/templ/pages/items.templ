@@ -28,25 +28,29 @@ templ ItemCard(i *model.Item) {
 			for _, im := range i.Images {
 				<img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items", i.Id, im) } alt=""/>
 			}
-			<h3>{ i.Title }</h3>
-			<p>{ i.Description }</p>
+			<header>
+				<h3>{ i.Title }</h3>
+				<p>{ i.Description }</p>
+			</header>
 		</div>
-		<div class="stack">
-			@Price(i)
-			<form hx-post="/bid" hx-target="previous .price" hx-swap="outerHTML">
-				<input type="hidden" value={ i.Id } name="item_id"/>
-				<input type="hidden" value="hi@jayphen.com" name="bidder_email"/>
-				<input type="hidden" value="80" name="amount"/>
-				<button type="submit">Get it</button>
-			</form>
+		<div class="actions">
+			<div class="stack">
+				@Price(i)
+				<form hx-post="/bid" hx-target="previous .price" hx-swap="outerHTML">
+					<input type="hidden" value={ i.Id } name="item_id"/>
+					<input type="hidden" value="hi@jayphen.com" name="bidder_email"/>
+					<input type="hidden" value="80" name="amount"/>
+					<button type="submit">Make a bid</button>
+				</form>
+			</div>
 		</div>
 	</div>
 }
 
 templ Price(i *model.Item) {
 	if getLatestBid(i) != "" {
-		<p class="price">Latest bid: €{ getLatestBid(i) }</p>
+		<p class="price">Latest bid: <span class="val">€{ getLatestBid(i) }</span></p>
 	} else {
-		<p class="price">€{ strconv.Itoa(i.Price) }ish</p>
+		<p class="price"><span class="val">€{ strconv.Itoa(i.Price) }</span>ish</p>
 	}
 }
