@@ -7,7 +7,7 @@ import (
 )
 
 templ ItemsList(items []*model.Item) {
-	<div class="items">
+	<div class="items" hx-get="items" hx-swap="outerHTML" hx-trigger="sse:message">
 		for _, i := range items {
 			@ItemCard(i)
 		}

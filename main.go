@@ -20,6 +20,7 @@ func main() {
 	app := pocketbase.New()
 
 	handlers.RegisterBidHandlers(app)
+	handlers.RegisterSSEHandlers(app)
 	crontab.RegisterCronJobs(app)
 
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
