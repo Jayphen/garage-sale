@@ -14,14 +14,6 @@ templ ItemsList(items []*model.Item) {
 	</div>
 }
 
-func getLatestBid(i *model.Item) string {
-	if len(i.Bids) > 0 {
-		latestBid := i.Bids[len(i.Bids)-1]
-		return latestBid.Amount
-	}
-	return ""
-}
-
 templ ItemCard(i *model.Item) {
 	<div class="item" data-item-id={ i.Id }>
 		<div>

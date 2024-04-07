@@ -1,11 +1,39 @@
 package model
 
 import (
+	"fmt"
+
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/daos"
 	"github.com/pocketbase/pocketbase/models"
 	"github.com/pocketbase/pocketbase/tools/types"
 )
+
+type ItemStatus string
+
+const (
+	StatusSoon      ItemStatus = "soon"
+	StatusAvailable ItemStatus = "available"
+	StatusFrozen    ItemStatus = "frozen"
+	StatusSold      ItemStatus = "sold"
+)
+
+func (is *ItemStatus) ParseFormValue(value string) error {
+	switch value {
+	case "soon":
+		*is = StatusSoon
+	case "available":
+		*is = StatusAvailable
+	case "frozen":
+		*is = StatusFrozen
+	case "sold":
+		*is = StatusSold
+	default:
+		return fmt.Errorf("Invalid value for ItemStatus: %s", value)
+	}
+
+	return nil
+}
 
 type Item struct {
 	models.BaseModel
@@ -14,7 +42,7 @@ type Item struct {
 	Description string                  `db:"description" json:"description"`
 	Price       int                     `db:"price" json:"price"`
 	Images      types.JsonArray[string] `db:"images" json:"images"`
-	Bids        []*Bid                  `db:"bids" json:"bids"`
+	Status      ItemStatus              `db:"status" json:"status"`
 }
 
 var _ models.Model = (*Item)(nil)
@@ -35,18 +63,6 @@ func (item *Item) GetItems(dao *daos.Dao) ([]*Item, error) {
 		return nil, err
 	}
 
-	// n+1 but it is sqlite so no worries
-	for _, item := range items {
-		var bids []*Bid
-
-		err := dao.ModelQuery(&Bid{}).Where(dbx.HashExp{"item_id": item.Id}).All(&bids)
-		if err != nil {
-			return nil, err
-		}
-
-		item.Bids = bids
-	}
-
 	return items, nil
 }
 
@@ -60,4 +76,18 @@ func (item *Item) FindItemById(dao *daos.Dao, id string) (*Item, error) {
 	}
 
 	return item, nil
+}
+
+func (item *Item) SetItemStatus(dao *daos.Dao, id string, status ItemStatus) error {
+	record, err := dao.FindRecordById("items", id)
+	if err != nil {
+		return err
+	}
+
+	record.Set("status", string(status))
+	if err := dao.SaveRecord(record); err != nil {
+		return err
+	}
+
+	return nil
 }

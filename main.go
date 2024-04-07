@@ -13,7 +13,6 @@ func main() {
 	app := pocketbase.New()
 
 	handlers.RegisterHomeHandlers(app)
-	handlers.RegisterBidHandlers(app)
 	handlers.RegisterItemsHandlers(app)
 	handlers.RegisterSSEHandlers(app)
 
