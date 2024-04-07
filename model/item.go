@@ -41,6 +41,7 @@ type Item struct {
 	Title       string                  `db:"title" json:"title"`
 	Description string                  `db:"description" json:"description"`
 	Price       int                     `db:"price" json:"price"`
+	SellPrice   int                     `db:"sellPrice" json:"sellPrice"`
 	Images      types.JsonArray[string] `db:"images" json:"images"`
 	Status      ItemStatus              `db:"status" json:"status"`
 }
@@ -85,6 +86,11 @@ func (item *Item) SetItemStatus(dao *daos.Dao, id string, status ItemStatus) err
 	}
 
 	record.Set("status", string(status))
+
+	if string(status) == "frozen" {
+		record.Set("sellPrice", record.Get("price"))
+	}
+
 	if err := dao.SaveRecord(record); err != nil {
 		return err
 	}

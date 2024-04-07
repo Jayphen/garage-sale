@@ -70,7 +70,13 @@ body {
   }
 
   .item[data-item-status="frozen"] {
-    opacity: 0.6;
+    .price {
+      text-align: center;
+      flex-grow: 1;
+    }
+    .price .val {
+      color: var(--stone-08);
+    }
   }
 
   header,
@@ -136,6 +142,7 @@ body {
     border: 0;
     font-weight: var(--font-weight-5);
     border-radius: var(--radius-2);
+    line-height: var(--font-lineheight-00);
 
     &:hover {
       background: var(--indigo-7);
