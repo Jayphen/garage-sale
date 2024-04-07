@@ -18,10 +18,10 @@ func resetPricing(app *pocketbase.PocketBase, scheduler *cron.Cron) {
 }
 
 func decPricing(app *pocketbase.PocketBase, scheduler *cron.Cron) {
-	frequency := "* * * * *" // every 2 mins
+	frequency := "* * * * *" // every minute
 
 	scheduler.MustAdd("pricingDec", frequency, func() {
-		_, err := app.Dao().DB().NewQuery("UPDATE items SET price = price - ((maxPrice - minPrice) / 360) WHERE price > minPrice").
+		_, err := app.Dao().DB().NewQuery("UPDATE items SET price = price - ((maxPrice - minPrice) / 720) WHERE price > minPrice").
 			Execute()
 		if err != nil {
 			fmt.Println(err)
