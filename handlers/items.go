@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 
+	components "garagesale.jayphen.dev/assets/templ/components/item"
 	"garagesale.jayphen.dev/assets/templ/pages"
 	"garagesale.jayphen.dev/model"
 	"garagesale.jayphen.dev/utils"
@@ -54,7 +55,7 @@ func ItemPriceGet(e *core.ServeEvent) func(echo.Context) error {
 			return err
 		}
 
-		return utils.Render(c, 200, pages.Price(item))
+		return utils.Render(c, 200, components.Price(item))
 	}
 }
 

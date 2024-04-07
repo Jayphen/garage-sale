@@ -1,0 +1,17 @@
+package components
+
+import "garagesale.jayphen.dev/model"
+import "fmt"
+import "strconv"
+
+templ Price(i *model.Item) {
+<p class="price" hx-get={ fmt.Sprintf("/items/%s/price", i.Id) } hx-swap="outerHTML" hx-trigger="sse:message">
+  Current price: <span class="val">€{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</span>
+</p>
+}
+
+templ FrozenPrice(i *model.Item) {
+<p class="price reserved">
+  Reserved at: <span class="val">€{ strconv.FormatFloat(float64(i.SellPrice) / 100.0, 'f', 2, 64) }</span>
+</p>
+}

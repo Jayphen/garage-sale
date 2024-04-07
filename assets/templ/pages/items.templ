@@ -2,9 +2,9 @@ package pages
 
 import (
 "garagesale.jayphen.dev/model"
-"strconv"
 "fmt"
 "garagesale.jayphen.dev/assets/templ/layouts"
+"garagesale.jayphen.dev/assets/templ/components/item"
 )
 
 templ ItemsPage(items []*model.Item) {
@@ -45,9 +45,9 @@ templ ItemCard(i *model.Item) {
   <div class="actions">
     <div class="stack">
       if i.Status == "frozen" {
-      @FrozenPrice(i)
+      @components.FrozenPrice(i)
       } else {
-      @Price(i)
+      @components.Price(i)
       }
       if i.Status == "available" {
       <form hx-post={ fmt.Sprintf("/items/%s/status", i.Id) } hx-target="closest .item" hx-swap="outerHTML">
@@ -59,18 +59,6 @@ templ ItemCard(i *model.Item) {
     </div>
   </div>
 </div>
-}
-
-templ Price(i *model.Item) {
-<p class="price" hx-get={ fmt.Sprintf("/items/%s/price", i.Id) } hx-swap="outerHTML" hx-trigger="sse:message">
-  Current price: <span class="val">€{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</span>
-</p>
-}
-
-templ FrozenPrice(i *model.Item) {
-<p class="price reserved">
-  Reserved at: <span class="val">€{ strconv.FormatFloat(float64(i.SellPrice) / 100.0, 'f', 2, 64) }</span>
-</p>
 }
 
 templ Frozen() {
