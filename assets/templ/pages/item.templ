@@ -8,18 +8,22 @@ import "garagesale.jayphen.dev/assets/templ/components/item"
 templ ItemPage(i *model.Item) {
 @layouts.Layout_base() {
 <main class="item-page">
-  <header>
-    <h1>{ i.Title }</h1>
-    <p>{ i.Description }</p>
-  </header>
-  for _, im := range i.Images {
-  <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x400", "items" , i.Id, im) } alt="" />
-  }
-  if i.Status == "frozen" {
-  @components.FrozenPrice(i)
-  } else {
-  @components.Price(i)
-  }
+  <div class="imagery">
+    for _, im := range i.Images {
+    <img src={ fmt.Sprintf("/api/files/%s/%s/%s", "items" , i.Id, im) } alt="" />
+    }
+  </div>
+  <div class="key-info">
+    <header>
+      <h1>{ i.Title }</h1>
+      <p>{ i.Description }</p>
+    </header>
+    if i.Status == "frozen" {
+    @components.FrozenPrice(i)
+    } else {
+    @components.Price(i)
+    }
+  </div>
 </main>
 }
 }

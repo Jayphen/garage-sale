@@ -14,6 +14,12 @@ templ Layout_base() {
 </head>
 
 <body hx-ext="sse" sse-connect="/events">
+  <nav class="main-nav">
+    <span>Jayphen's garage sale</span>
+    <ul>
+      <li><a href="/" hx-boost>Home</a></li>
+    </ul>
+  </nav>
   { children... }
   <script>
     document.body.addEventListener('htmx:afterSwap', function (event) {
