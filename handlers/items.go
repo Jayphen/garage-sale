@@ -62,6 +62,11 @@ func ItemStatusSet(e *core.ServeEvent) func(echo.Context) error {
 			return err
 		}
 
-		return nil
+		item, err := (&model.Item{}).FindItemById(e.App.Dao(), id)
+		if err != nil {
+			return err
+		}
+
+		return utils.Render(c, 200, pages.ItemCard(item))
 	}
 }

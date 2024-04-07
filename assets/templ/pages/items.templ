@@ -1,46 +1,54 @@
 package pages
 
 import (
-	"garagesale.jayphen.dev/model"
-	"strconv"
-	"fmt"
+"garagesale.jayphen.dev/model"
+"strconv"
+"fmt"
 )
 
 templ ItemsList(items []*model.Item) {
-	<div class="items">
-		for _, i := range items {
-			@ItemCard(i)
-		}
-	</div>
+<div class="items">
+  for _, i := range items {
+  @ItemCard(i)
+  }
+</div>
 }
 
 templ ItemCard(i *model.Item) {
-	<div class="item" data-item-id={ i.Id }>
-		<div>
-			for _, im := range i.Images {
-				<img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items", i.Id, im) } alt=""/>
-			}
-			<header>
-				<h3>{ i.Title }</h3>
-				<p>{ i.Description }</p>
-			</header>
-		</div>
-		<div class="actions">
-			<div class="stack">
-				@Price(i)
-				<form hx-post="/bid" hx-target="previous .price" hx-swap="outerHTML">
-					<input type="hidden" value={ i.Id } name="item_id"/>
-					<input type="hidden" value="hi@jayphen.com" name="bidder_email"/>
-					<input type="hidden" value="80" name="amount"/>
-					<button type="submit">Buy</button>
-				</form>
-			</div>
-		</div>
-	</div>
+<div class="item" data-item-id={ i.Id } data-item-status={ string(i.Status) }>
+  <div>
+    if i.Status == "frozen" {
+    @Frozen()
+    }
+    for _, im := range i.Images {
+    <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
+    }
+    <header>
+      <h3>{ i.Title }</h3>
+      <p>{ i.Description }</p>
+    </header>
+  </div>
+  <div class="actions">
+    <div class="stack">
+      @Price(i)
+      if i.Status == "available" {
+      <form hx-post={ fmt.Sprintf("/items/%s/status", i.Id) } hx-target="closest .item" hx-swap="outerHTML">
+        <input type="hidden" value="hi@jayphen.com" name="bidder_email" />
+        <input type="hidden" value="frozen" name="status" />
+        <button type="submit">Buy</button>
+      </form>
+      }
+    </div>
+  </div>
+</div>
 }
 
 templ Price(i *model.Item) {
-	<p class="price" hx-get={ fmt.Sprintf("/items/%s/price", i.Id) } hx-swap="outerHTML" hx-trigger="sse:message">
-		Current price: <span class="val">€{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</span>
-	</p>
+<p class="price" hx-get={ fmt.Sprintf("/items/%s/price", i.Id) } hx-swap="outerHTML" hx-trigger="sse:message">
+  Current price: <span class="val">€{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</span>
+</p>
+}
+
+templ Frozen() {
+<div class="frozen">Reserved!</div>
 }

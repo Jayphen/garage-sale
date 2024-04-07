@@ -69,6 +69,10 @@ body {
     line-height: var(--font-lineheight-2);
   }
 
+  .item[data-item-status="frozen"] {
+    opacity: 0.6;
+  }
+
   header,
   .stack {
     padding: var(--size-3);
@@ -143,7 +147,7 @@ body {
   display: flex;
 }
 
-.htmx-highlight {
+.price.htmx-highlight {
   animation: highlight 30s;
 }
 
@@ -154,4 +158,12 @@ body {
   to {
     background-color: transparent;
   }
+}
+.frozen {
+  background: var(--orange-9);
+  color: var(--sand-0);
+  padding: var(--size-2);
+  font-size: var(--font-size-0);
+  font-weight: var(--font-weight-5);
+  text-align: center;
 }
