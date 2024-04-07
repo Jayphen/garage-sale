@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"garagesale.jayphen.dev/assets/templ/layouts"
+	"garagesale.jayphen.dev/assets/templ/pages"
 	"garagesale.jayphen.dev/model"
 	"garagesale.jayphen.dev/utils"
 	"github.com/labstack/echo/v5"
@@ -22,7 +22,7 @@ func RegisterHomeHandlers(app *pocketbase.PocketBase) {
 				fmt.Println(err)
 			}
 
-			return utils.Render(c, http.StatusOK, layouts.Layout(items))
+			return utils.Render(c, http.StatusOK, pages.ItemsPage(items))
 		})
 
 		return nil

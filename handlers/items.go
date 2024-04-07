@@ -14,6 +14,7 @@ import (
 func RegisterItemsHandlers(app *pocketbase.PocketBase) {
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.GET("/items", ItemsGet(e))
+		e.Router.GET("/items/:id", ItemGet(e))
 		e.Router.GET("/items/:id/price", ItemPriceGet(e))
 		e.Router.POST("/items/:id/status", ItemStatusSet(e))
 		return nil
@@ -28,6 +29,19 @@ func ItemsGet(e *core.ServeEvent) func(echo.Context) error {
 		}
 
 		return utils.Render(c, 200, pages.ItemsList(items))
+	}
+}
+
+func ItemGet(e *core.ServeEvent) func(echo.Context) error {
+	return func(c echo.Context) error {
+		id := c.PathParam("id")
+
+		item, err := (&model.Item{}).FindItemById(e.App.Dao(), id)
+		if err != nil {
+			return err
+		}
+
+		return utils.Render(c, 200, pages.ItemPage(item))
 	}
 }
 

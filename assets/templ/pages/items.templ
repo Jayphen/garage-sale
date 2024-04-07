@@ -4,7 +4,21 @@ import (
 "garagesale.jayphen.dev/model"
 "strconv"
 "fmt"
+"garagesale.jayphen.dev/assets/templ/layouts"
 )
+
+templ ItemsPage(items []*model.Item) {
+@layouts.Layout_base() {
+<h1>Buy my things</h1>
+<p style="margin: auto; color: var(--gray-7)">
+  <strong>How this works:</strong> the opening hours of the store at 09:00-21:00. Prices drop every 2 minutes, and
+  reset every evening. When you
+  click buy, you lock in that price. You could wait for it to get cheaper, but someone else might snap up that sweet
+  item that you desired. I would recommend buying things at the highest price possible, just to be safe.
+</p>
+@ItemsList(items)
+}
+}
 
 templ ItemsList(items []*model.Item) {
 <div class="items">
@@ -17,14 +31,14 @@ templ ItemsList(items []*model.Item) {
 templ ItemCard(i *model.Item) {
 <div class="item" data-item-id={ i.Id } data-item-status={ string(i.Status) }>
   <div>
-    if i.Status == "frozen" {
-    @Frozen()
-    }
     for _, im := range i.Images {
     <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
     }
+    if i.Status == "frozen" {
+    @Frozen()
+    }
     <header>
-      <h3>{ i.Title }</h3>
+      <h3><a href={ templ.URL(fmt.Sprintf("/items/%s", i.Id)) } hx-boost>{ i.Title }</a></h3>
       <p>{ i.Description }</p>
     </header>
   </div>

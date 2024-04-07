@@ -70,7 +70,6 @@ func (item *Item) GetItems(dao *daos.Dao) ([]*Item, error) {
 func (item *Item) FindItemById(dao *daos.Dao, id string) (*Item, error) {
 	err := ItemQuery(dao).
 		AndWhere(dbx.HashExp{"id": id}).
-		Limit(1).
 		One(item)
 	if err != nil {
 		return nil, err
