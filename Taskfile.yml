@@ -11,7 +11,7 @@ tasks:
       - go run . serve
   watch_templ:
     cmds:
-      - templ generate --watch --proxy="http://localhost:8090"
+      - templ generate --watch
   watch_pb:
     cmds:
       - air serve
