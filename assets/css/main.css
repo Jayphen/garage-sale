@@ -155,7 +155,7 @@ body {
 }
 
 .price.htmx-highlight {
-  animation: highlight 30s;
+  animation: highlight 1.5s ease-out;
 }
 
 @keyframes highlight {
@@ -173,4 +173,12 @@ body {
   font-size: var(--font-size-0);
   font-weight: var(--font-weight-5);
   text-align: center;
+}
+
+/** Item Page **/
+.item-page {
+  margin: 0 auto;
+  display: grid;
+  justify-content: center;
+  gap: var(--size-4);
 }

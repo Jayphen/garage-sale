@@ -2,6 +2,7 @@ package crontab
 
 import (
 	"fmt"
+	"math"
 
 	"garagesale.jayphen.dev/handlers"
 	"github.com/pocketbase/pocketbase"
@@ -17,16 +18,27 @@ func resetPricing(app *pocketbase.PocketBase, scheduler *cron.Cron) {
 	})
 }
 
-func decPricing(app *pocketbase.PocketBase, scheduler *cron.Cron) {
-	frequency := "* * * * *" // every minute
+func decPricingTick(app *pocketbase.PocketBase) error {
+	records, err := app.Dao().FindRecordsByFilter("items",
+		"price > minPrice",
+		"", 0, 0,
+	)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
 
-	scheduler.MustAdd("pricingDec", frequency, func() {
-		_, err := app.Dao().DB().NewQuery("UPDATE items SET price = price - ((maxPrice - minPrice) / 720) WHERE price > minPrice").
-			Execute()
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			handlers.SendMessage("updated pricing")
-		}
-	})
+	for _, r := range records {
+		p := r.GetFloat("price")
+		maxP := r.GetFloat("maxPrice")
+		minP := r.GetFloat("minPrice")
+		roundedPrice := int(math.Round(p - ((maxP-minP)/8640)*100/100))
+
+		r.Set("price", roundedPrice)
+
+		app.Dao().SaveRecord(r)
+	}
+	handlers.SendMessage("updated pricing")
+
+	return nil
 }

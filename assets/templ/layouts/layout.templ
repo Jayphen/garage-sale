@@ -13,7 +13,7 @@ templ Layout_base() {
   <title>Jayphen's Garage Sale, everything must go</title>
 </head>
 
-<body hx-ext="sse" sse-connect="events">
+<body hx-ext="sse" sse-connect="/events">
   { children... }
   <script>
     document.body.addEventListener('htmx:afterSwap', function (event) {
