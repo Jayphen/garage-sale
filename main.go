@@ -1,16 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"net/http"
 
-	"garagesale.jayphen.dev/assets/templ/layouts"
 	"garagesale.jayphen.dev/crontab"
 	"garagesale.jayphen.dev/handlers"
-	"garagesale.jayphen.dev/model"
-	"garagesale.jayphen.dev/utils"
-	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 )
@@ -18,6 +12,7 @@ import (
 func main() {
 	app := pocketbase.New()
 
+	handlers.RegisterHomeHandlers(app)
 	handlers.RegisterBidHandlers(app)
 	handlers.RegisterItemsHandlers(app)
 	handlers.RegisterSSEHandlers(app)
@@ -25,7 +20,6 @@ func main() {
 	crontab.RegisterCronJobs(app)
 
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-		e.Router.GET("/", HomeHandler(e))
 		e.Router.Static("/assets", "assets")
 
 		return nil
@@ -33,18 +27,5 @@ func main() {
 
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
-	}
-}
-
-func HomeHandler(e *core.ServeEvent) func(echo.Context) error {
-	return func(c echo.Context) error {
-		c.Response().Header().Set("HX-Push-Url", "/")
-
-		items, err := (&model.Item{}).GetItems(e.App.Dao())
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		return utils.Render(c, http.StatusOK, layouts.Layout(items))
 	}
 }
