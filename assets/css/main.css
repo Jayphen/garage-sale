@@ -218,3 +218,24 @@ body {
     position: sticky;
   }
 }
+
+/** Global **/
+#toasts {
+  position: fixed;
+  top: var(--size-9);
+  right: var(--size-4);
+
+  .toasty {
+    display: grid;
+    gap: var(--size-4);
+  }
+
+  .toast {
+    background: var(--red-1);
+    padding: var(--size-3);
+    border: 1px solid var(--red-4);
+    color: var(--red-8);
+    font-weight: var(--font-weight-5);
+    border-radius: var(--radius-2);
+  }
+}

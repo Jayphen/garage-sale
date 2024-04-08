@@ -22,11 +22,16 @@ func RegisterHomeHandlers(app *pocketbase.PocketBase) {
 				fmt.Println(err)
 			}
 
+			cartSize := 0
 			session := utils.GetSession(c.Request())
 
-			cartSize, err := model.GetCartSize(e.App.Dao(), session.Values["cart"].(string))
-			if err != nil {
-				fmt.Println(err)
+			if session != nil && session.Values["cart"] != nil {
+				sessionCartSize, err := model.GetCartSize(e.App.Dao(), session.Values["cart"].(string))
+
+				cartSize = sessionCartSize
+				if err != nil {
+					fmt.Println(err)
+				}
 			}
 
 			return utils.Render(c, http.StatusOK, pages.ItemsPage(items, cartSize))

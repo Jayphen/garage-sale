@@ -14,6 +14,7 @@ func main() {
 
 	handlers.RegisterHomeHandlers(app)
 	handlers.RegisterItemsHandlers(app)
+	handlers.RegisterCartHandlers(app)
 	handlers.RegisterSSEHandlers(app)
 
 	crontab.RegisterCronJobs(app)

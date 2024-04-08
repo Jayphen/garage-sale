@@ -9,6 +9,9 @@ import (
 var Store = sessions.NewCookieStore([]byte("wowowow"))
 
 func GetSession(h *http.Request) *sessions.Session {
-	session, _ := Store.Get(h, "garagesale-sesh")
+	session, err := Store.Get(h, "garagesale-sesh")
+	if err != nil {
+		return nil
+	}
 	return session
 }

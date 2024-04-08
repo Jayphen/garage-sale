@@ -77,18 +77,6 @@ func ItemStatusSet(e *core.ServeEvent) func(echo.Context) error {
 			return err
 		}
 
-		// add to cart and set session
-		if status == "frozen" {
-			cartId, err := model.AddToCart(e.App.Dao(), id)
-			if err != nil {
-				return err
-			}
-
-			session := utils.GetSession(c.Request())
-			session.Values["cart"] = cartId
-			session.Save(c.Request(), c.Response())
-		}
-
 		item, err := (&model.Item{}).FindItemById(e.App.Dao(), id)
 		if err != nil {
 			return err

@@ -50,9 +50,8 @@ templ ItemCard(i *model.Item) {
       @components.Price(i)
       }
       if i.Status == "available" {
-      <form hx-post={ fmt.Sprintf("/items/%s/status", i.Id) } hx-target="closest .item" hx-swap="outerHTML">
-        <input type="hidden" value="hi@jayphen.com" name="bidder_email" />
-        <input type="hidden" value="frozen" name="status" />
+      <form hx-post="/cart" hx-target=".cart-indicator" hx-target-4*=".toasty" hx-swap="innerHTML">
+        <input type="hidden" name="itemId" value={ i.Id } />
         <button type="submit">Buy</button>
       </form>
       }
