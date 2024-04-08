@@ -1,6 +1,8 @@
 package layouts
 
-templ Layout_base() {
+import "fmt"
+
+templ Layout_base(cartSize int) {
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +21,7 @@ templ Layout_base() {
     <ul>
       <li><a href="/" hx-boost>Home</a></li>
     </ul>
+    <div>Cart: { fmt.Sprintf("%d",cartSize) }</div>
   </nav>
   { children... }
   <script>

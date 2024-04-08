@@ -6,7 +6,7 @@ import "garagesale.jayphen.dev/ui/layouts"
 import "garagesale.jayphen.dev/ui/components/item"
 
 templ ItemPage(i *model.Item) {
-@layouts.Layout_base() {
+@layouts.Layout_base(0) {
 <main class="item-page">
   <div class="imagery">
     for _, im := range i.Images {

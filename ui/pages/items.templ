@@ -7,8 +7,8 @@ import (
 "garagesale.jayphen.dev/ui/components/item"
 )
 
-templ ItemsPage(items []*model.Item) {
-@layouts.Layout_base() {
+templ ItemsPage(items []*model.Item, cartSize int) {
+@layouts.Layout_base(cartSize) {
 <h1>Buy my things</h1>
 <p style="margin: auto; color: var(--gray-7)">
   <strong>How this works:</strong> the opening hours of the store at 09:00-21:00. Prices drop every 2 seconds, and

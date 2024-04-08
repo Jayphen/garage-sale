@@ -14,7 +14,7 @@ import (
 
 func RegisterItemsHandlers(app *pocketbase.PocketBase) {
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-		e.Router.GET("/items", ItemsGet(e))
+		e.Router.GET("/items", ItemsGet(e, app))
 		e.Router.GET("/items/:id", ItemGet(e))
 		e.Router.GET("/items/:id/price", ItemPriceGet(e))
 		e.Router.POST("/items/:id/status", ItemStatusSet(e))
@@ -22,7 +22,7 @@ func RegisterItemsHandlers(app *pocketbase.PocketBase) {
 	})
 }
 
-func ItemsGet(e *core.ServeEvent) func(echo.Context) error {
+func ItemsGet(e *core.ServeEvent, app *pocketbase.PocketBase) func(echo.Context) error {
 	return func(c echo.Context) error {
 		items, err := (&model.Item{}).GetItems(e.App.Dao())
 		if err != nil {
@@ -75,6 +75,18 @@ func ItemStatusSet(e *core.ServeEvent) func(echo.Context) error {
 		if err != nil {
 			fmt.Println("Error setting item status:", err)
 			return err
+		}
+
+		// add to cart and set session
+		if status == "frozen" {
+			cartId, err := model.AddToCart(e.App.Dao(), id)
+			if err != nil {
+				return err
+			}
+
+			session := utils.GetSession(c.Request())
+			session.Values["cart"] = cartId
+			session.Save(c.Request(), c.Response())
 		}
 
 		item, err := (&model.Item{}).FindItemById(e.App.Dao(), id)
