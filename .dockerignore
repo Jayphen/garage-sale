@@ -1,0 +1,10 @@
+# flyctl launch added from .gitignore
+**/.env
+.git
+
+# Go build files
+**/dist
+**/tmp
+
+**/pb_data
+fly.toml

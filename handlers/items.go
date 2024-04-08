@@ -3,9 +3,9 @@ package handlers
 import (
 	"fmt"
 
-	components "garagesale.jayphen.dev/assets/templ/components/item"
-	"garagesale.jayphen.dev/assets/templ/pages"
 	"garagesale.jayphen.dev/model"
+	components "garagesale.jayphen.dev/ui/components/item"
+	"garagesale.jayphen.dev/ui/pages"
 	"garagesale.jayphen.dev/utils"
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
