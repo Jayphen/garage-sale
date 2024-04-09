@@ -42,7 +42,7 @@ func ItemGet(e *core.ServeEvent) func(echo.Context) error {
 			return err
 		}
 
-		return utils.Render(c, 200, pages.ItemPage(item))
+		return utils.Render(c, 200, pages.ItemPage(item, utils.GetCartSize(c.Request())))
 	}
 }
 

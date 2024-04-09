@@ -5,8 +5,8 @@ import "fmt"
 import "garagesale.jayphen.dev/ui/layouts"
 import "garagesale.jayphen.dev/ui/components/item"
 
-templ ItemPage(i *model.Item) {
-@layouts.Layout_base(0) {
+templ ItemPage(i *model.Item, cartSize int) {
+@layouts.Layout_base(cartSize) {
 <main class="item-page">
   <div class="imagery">
     for _, im := range i.Images {

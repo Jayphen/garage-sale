@@ -15,3 +15,15 @@ func GetSession(h *http.Request) *sessions.Session {
 	}
 	return session
 }
+
+func GetCartSize(h *http.Request) int {
+	session := GetSession(h)
+
+	// Retrieve cart ID from the session if it exists
+	cartSize, ok := session.Values["cartSize"].(int)
+	if !ok {
+		cartSize = 0
+	}
+
+	return cartSize
+}
