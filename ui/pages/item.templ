@@ -5,6 +5,13 @@ import "fmt"
 import "garagesale.jayphen.dev/ui/layouts"
 import "garagesale.jayphen.dev/ui/components/item"
 
+func convertItemPrice(item *model.Item) components.ItemPrice {
+return components.ItemPrice{
+Id: item.Id,
+Price: item.Price,
+}
+}
+
 templ ItemPage(i *model.Item, cartSize int) {
 @layouts.Layout_base(cartSize) {
 <main class="item-page">
@@ -19,9 +26,15 @@ templ ItemPage(i *model.Item, cartSize int) {
       <p>{ i.Description }</p>
     </header>
     if i.Status == "frozen" {
-    @components.FrozenPrice(i)
+    @components.FrozenPrice(components.ItemPrice{
+    Id: i.Id,
+    Price: i.SellPrice,
+    })
     } else {
-    @components.Price(i)
+    @components.Price(components.ItemPrice{
+    Id: i.Id,
+    Price: i.Price,
+    })
     }
   </div>
 </main>

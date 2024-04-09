@@ -14,7 +14,7 @@ func AddToCart(dao *daos.Dao, id string, cartId string) (string, error) {
 	}
 
 	if cartId != "" {
-		cartRecord, err := getExistingCartRecord(dao, cartId)
+		cartRecord, err := GetExistingCartRecord(dao, cartId)
 		if err != nil {
 			return "", err
 		}
@@ -24,7 +24,7 @@ func AddToCart(dao *daos.Dao, id string, cartId string) (string, error) {
 	}
 }
 
-func getExistingCartRecord(dao *daos.Dao, cartId string) (*models.Record, error) {
+func GetExistingCartRecord(dao *daos.Dao, cartId string) (*models.Record, error) {
 	cartRecord, err := dao.FindRecordById("carts", cartId)
 	if err != nil {
 		return nil, err

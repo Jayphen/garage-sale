@@ -55,7 +55,7 @@ func ItemPriceGet(e *core.ServeEvent) func(echo.Context) error {
 			return err
 		}
 
-		return utils.Render(c, 200, components.Price(item))
+		return utils.Render(c, 200, components.Price(components.ItemPrice{Id: id, Price: item.Price}))
 	}
 }
 

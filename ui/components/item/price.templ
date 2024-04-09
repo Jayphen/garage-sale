@@ -1,17 +1,37 @@
 package components
 
-import "garagesale.jayphen.dev/model"
 import "fmt"
 import "strconv"
 
-templ Price(i *model.Item) {
+type ItemPrice struct {
+Id string
+Price int
+}
+
+templ Price(i ItemPrice) {
 <p class="price" hx-get={ fmt.Sprintf("/items/%s/price", i.Id) } hx-swap="outerHTML" hx-trigger="sse:message">
   Current price: <span class="val">€{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</span>
 </p>
 }
 
-templ FrozenPrice(i *model.Item) {
+templ FrozenPrice(i ItemPrice) {
 <p class="price reserved">
-  Reserved at: <span class="val">€{ strconv.FormatFloat(float64(i.SellPrice) / 100.0, 'f', 2, 64) }</span>
+  Reserved at: <span class="val">€{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</span>
 </p>
+}
+
+templ TotalPrice(i []ItemPrice) {
+<div class="total-price" hx-trigger="sse:message" hx-swap="outerHTML" hx-get="/cart-total">
+  <span class="val">
+    €{ calculateTotalPrice(i) }
+  </span>
+</div>
+}
+
+func calculateTotalPrice(prices []ItemPrice) string {
+total := 0
+for _, item := range prices {
+total += item.Price
+}
+return strconv.FormatFloat(float64(total)/100.0, 'f', 2, 64)
 }

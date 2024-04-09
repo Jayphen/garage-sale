@@ -45,9 +45,15 @@ templ ItemCard(i *model.Item) {
   <div class="actions">
     <div class="stack">
       if i.Status == "frozen" {
-      @components.FrozenPrice(i)
+      @components.FrozenPrice(components.ItemPrice{
+      Id: i.Id,
+      Price: i.SellPrice,
+      })
       } else {
-      @components.Price(i)
+      @components.Price(components.ItemPrice{
+      Id: i.Id,
+      Price: i.Price,
+      })
       }
       if i.Status == "available" {
       <form hx-post="/cart" hx-target=".cart-indicator" hx-target-4*=".toasty" hx-swap="innerHTML">
