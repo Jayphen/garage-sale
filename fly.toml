@@ -7,7 +7,7 @@ app = 'garage-sale'
 primary_region = 'ams'
 
 [mounts]
-  destination = "pb_data"
+  destination = "/app/pb_data"
   source = "pb_data"
 
 [build]
