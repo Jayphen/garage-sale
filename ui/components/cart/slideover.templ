@@ -2,27 +2,9 @@ package components
 
 import "fmt"
 import "garagesale.jayphen.dev/ui/components/item"
+import "garagesale.jayphen.dev/model"
 
-type CartItem struct {
-Id string
-Title string
-Price int
-Images []string
-}
-
-func createItemPrices(cartItems []CartItem) []components.ItemPrice {
-var itemPrices []components.ItemPrice
-for _, item := range cartItems {
-itemPrice := components.ItemPrice{
-Id: item.Id,
-Price: item.Price,
-}
-itemPrices = append(itemPrices, itemPrice)
-}
-return itemPrices
-}
-
-templ CartSlideover(cartItems []CartItem) {
+templ CartSlideover(cart model.ExpandedCart) {
 <div class="cart-overlay" _="on click send hide to the next .cart then transition opacity to 0 then remove me"></div>
 <div class="cart" _="on load add .visible to me
 on hide remove .visible from me then settle then remove me">
@@ -30,7 +12,7 @@ on hide remove .visible from me then settle then remove me">
     <h4>These things are in your cart</h4>
     <p>But be careful coz someone else might buy them any second now</p>
   </header>
-  for _, i := range cartItems {
+  for _, i := range cart.CartItems {
   <div class="cart-item">
     for _, im := range i.Images {
     <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
@@ -41,6 +23,6 @@ on hide remove .visible from me then settle then remove me">
     </div>
   </div>
   }
-  @components.TotalPrice(createItemPrices(cartItems))
+  @components.TotalPrice(cart.TotalPrice)
 </div>
 }

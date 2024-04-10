@@ -2,10 +2,64 @@ package model
 
 import (
 	"errors"
+	"strconv"
 
 	"github.com/pocketbase/pocketbase/daos"
 	"github.com/pocketbase/pocketbase/models"
 )
+
+type Cart struct {
+	models.BaseModel
+	Id        string   `db:"id" json:"id"`
+	CartItems []string `db:"cartItems" json:"cartItems"`
+	Email     string   `db:"email" json:"email"`
+}
+
+type ExpandedCart struct {
+	Cart
+	CartItems  []Item `db:"cartItems" json:"cartItems"`
+	TotalPrice string
+}
+
+func NewExpandedCartFromCart(cart Cart, items []*models.Record) ExpandedCart {
+	expandedCart := &ExpandedCart{
+		Cart:      cart,
+		CartItems: make([]Item, len(cart.CartItems)),
+	}
+
+	for i, item := range items {
+		cartItem := Item{
+			Title:  item.GetString("title"),
+			Price:  item.GetInt("price"),
+			Id:     item.GetString("id"),
+			Images: item.GetStringSlice("images"),
+		}
+
+		expandedCart.CartItems[i] = cartItem
+	}
+
+	expandedCart.getTotalPrice()
+
+	return *expandedCart
+}
+
+func (c *ExpandedCart) getTotalPrice() {
+	total := 0
+	for _, item := range c.CartItems {
+		total += item.Price
+	}
+	c.TotalPrice = strconv.FormatFloat(float64(total)/100.0, 'f', 2, 64)
+}
+
+var _ models.Model = (*Cart)(nil)
+
+func (m *Cart) TableName() string {
+	return "carts"
+}
+
+type Price struct {
+	Price int
+}
 
 func AddToCart(dao *daos.Dao, id string, cartId string) (string, error) {
 	item, err := dao.FindRecordById("items", id)

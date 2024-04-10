@@ -69,18 +69,15 @@ func getCartPreview(e *core.ServeEvent) func(echo.Context) error {
 
 			e.App.Dao().ExpandRecord(cartRecord, []string{"cartItems"}, nil)
 
-			var cartItems []components.CartItem
-			for _, item := range cartRecord.ExpandedAll("cartItems") {
-				cartItem := components.CartItem{
-					Title:  item.GetString("title"),
-					Price:  item.GetInt("price"),
-					Id:     item.GetString("id"),
-					Images: item.GetStringSlice("images"),
-				}
-				cartItems = append(cartItems, cartItem)
+			cart := model.Cart{
+				Id:        cartId,
+				Email:     "",
+				CartItems: cartRecord.GetStringSlice("cartItems"),
 			}
 
-			return utils.Render(c, 200, components.CartSlideover(cartItems))
+			expandedCart := model.NewExpandedCartFromCart(cart, cartRecord.ExpandedAll("cartItems"))
+
+			return utils.Render(c, 200, components.CartSlideover(expandedCart))
 
 		}
 
@@ -104,19 +101,16 @@ func getCartTotal(e *core.ServeEvent) func(echo.Context) error {
 				return err
 			}
 
-			e.App.Dao().ExpandRecord(cartRecord, []string{"cartItems"}, nil)
-
-			var itemPrices []price.ItemPrice
-			for _, item := range cartRecord.ExpandedAll("cartItems") {
-				itemPrice := price.ItemPrice{
-					Price: item.GetInt("price"),
-					Id:    item.GetString("id"),
-				}
-				itemPrices = append(itemPrices, itemPrice)
+			cart := model.Cart{
+				Id:        cartRecord.GetString("id"),
+				CartItems: cartRecord.GetStringSlice("cartItems"),
 			}
 
-			return utils.Render(c, 200, price.TotalPrice(itemPrices))
+			e.App.Dao().ExpandRecord(cartRecord, []string{"cartItems"}, nil)
 
+			expandedCart := model.NewExpandedCartFromCart(cart, cartRecord.ExpandedAll("cartItems"))
+
+			return utils.Render(c, 200, price.TotalPrice(expandedCart.TotalPrice))
 		}
 
 		return nil

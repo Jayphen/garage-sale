@@ -20,18 +20,10 @@ templ FrozenPrice(i ItemPrice) {
 </p>
 }
 
-templ TotalPrice(i []ItemPrice) {
+templ TotalPrice(ip string) {
 <div class="total-price" hx-trigger="sse:message" hx-swap="outerHTML" hx-get="/cart-total">
   <span class="val">
-    €{ calculateTotalPrice(i) }
+    €{ fmt.Sprint(ip) }
   </span>
 </div>
-}
-
-func calculateTotalPrice(prices []ItemPrice) string {
-total := 0
-for _, item := range prices {
-total += item.Price
-}
-return strconv.FormatFloat(float64(total)/100.0, 'f', 2, 64)
 }
