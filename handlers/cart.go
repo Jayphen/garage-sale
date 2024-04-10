@@ -46,6 +46,7 @@ func addToCart(e *core.ServeEvent) func(echo.Context) error {
 		session.Values["cartSize"] = cartSize
 		session.Save(c.Request(), c.Response())
 
+		c.Response().Header().Set("HX-Reswap", "outerHTML")
 		return utils.Render(c, 200, components.Indicator(cartSize))
 	}
 }
