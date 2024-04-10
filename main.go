@@ -5,9 +5,14 @@ import (
 
 	"garagesale.jayphen.dev/crontab"
 	"garagesale.jayphen.dev/handlers"
+	"garagesale.jayphen.dev/utils"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 )
+
+func init() {
+	utils.CreateStore()
+}
 
 func main() {
 	app := pocketbase.New()

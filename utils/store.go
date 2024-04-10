@@ -6,10 +6,19 @@ import (
 	"github.com/gorilla/sessions"
 )
 
-var Store = sessions.NewCookieStore([]byte("wowowow"))
+var store *sessions.CookieStore
+
+func CreateStore() {
+	store = sessions.NewCookieStore([]byte("PotatOBananaSausages"))
+
+	store.Options = &sessions.Options{
+		MaxAge:   60 * 15,
+		HttpOnly: true,
+	}
+}
 
 func GetSession(h *http.Request) *sessions.Session {
-	session, err := Store.Get(h, "garagesale-sesh")
+	session, err := store.Get(h, "garagesale")
 	if err != nil {
 		return nil
 	}
