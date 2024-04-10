@@ -1,0 +1,43 @@
+package pages
+
+import "garagesale.jayphen.dev/model"
+import "garagesale.jayphen.dev/ui/layouts"
+import "fmt"
+import "garagesale.jayphen.dev/ui/components/item"
+
+templ Checkout(c *model.ExpandedCart) {
+@layouts.Layout_base(c.CartSize) {
+<main class="checkout">
+  <header>
+    <h1>Checkout</h1>
+  </header>
+  <div class="spiel">
+    <p>I am so glad to see you. You are buying my things and this makes me happy and will also make you happy.</p>
+    <p>
+      Please note that if these items do not bring you joy, I cannot be held responsible. Even if I could be held
+      responsible, I will be in Australia and you can't find me there.
+    </p>
+    <p>If you are in Vienna, I can drive some items around to you if you like. Just let me know!</p>
+    <p>Also some things I could probably post, if you are happy to pay postage.</p>
+  </div>
+  <div class="checkout-items">
+    <h2>Your lovely items</h2>
+    for _, i := range c.CartItems {
+    <div class="cart-item">
+      for _, im := range i.Images {
+      <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
+      }
+      <div class="item-detail">
+        <span class="item-title">{ i.Title }</span>
+        @components.Price(components.ItemPrice{Id: i.Id, Price: i.Price})
+      </div>
+    </div>
+    }
+    <div class="total">
+      and so were you so adventurous as to commit to purchasing these items, you would owe me a total of: { " " }
+      @components.TotalPrice(c.TotalPrice)
+    </div>
+  </div>
+</main>
+}
+}

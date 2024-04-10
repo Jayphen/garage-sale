@@ -5,13 +5,6 @@ import "fmt"
 import "garagesale.jayphen.dev/ui/layouts"
 import "garagesale.jayphen.dev/ui/components/item"
 
-func convertItemPrice(item *model.Item) components.ItemPrice {
-return components.ItemPrice{
-Id: item.Id,
-Price: item.Price,
-}
-}
-
 templ ItemPage(i *model.Item, cartSize int) {
 @layouts.Layout_base(cartSize) {
 <main class="item-page">

@@ -19,12 +19,15 @@ type ExpandedCart struct {
 	Cart
 	CartItems  []Item `db:"cartItems" json:"cartItems"`
 	TotalPrice string
+	CartSize   int
 }
 
 func NewExpandedCartFromCart(cart Cart, items []*models.Record) ExpandedCart {
+	cartSize := len(cart.CartItems)
+
 	expandedCart := &ExpandedCart{
 		Cart:      cart,
-		CartItems: make([]Item, len(cart.CartItems)),
+		CartItems: make([]Item, cartSize),
 	}
 
 	for i, item := range items {
@@ -39,6 +42,7 @@ func NewExpandedCartFromCart(cart Cart, items []*models.Record) ExpandedCart {
 	}
 
 	expandedCart.getTotalPrice()
+	expandedCart.CartSize = cartSize
 
 	return *expandedCart
 }

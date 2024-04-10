@@ -29,6 +29,14 @@ h1 {
   text-align: center;
   color: var(--indigo-6);
 }
+h2 {
+  font-size: var(--font-size-fluid-2);
+  line-height: var(--font-lineheight-0);
+  margin: 0 auto var(--size-2);
+  font-weight: var(--font-weight-5);
+  text-align: center;
+  color: var(--indigo-6);
+}
 
 .spiel {
   justify-content: center;
@@ -268,8 +276,13 @@ body {
   backdrop-filter: blur(6px);
 }
 .cart {
+  --cart-width: 20rem;
+
+  container-name: slideover;
+  container-type: inline-size;
   min-height: 100vh;
-  width: var(--size-fluid-9);
+  width: var(--cart-width);
+  max-width: 90vw;
   background: var(--sand-0);
   box-shadow: var(--shadow-5);
   display: grid;
@@ -304,24 +317,65 @@ body {
     }
   }
 
-  .cart-item {
-    padding: var(--size-3);
-    display: grid;
-    grid-template-columns: 3fr 3fr 1fr;
-    gap: var(--size-1);
-    border-bottom: 1px solid var(--sand-2);
-
-    img {
-      height: var(--size-9);
+  .checkout-btn {
+    display: block;
+    margin: var(--size-6) var(--size-2);
+    background: var(--indigo-9);
+    color: var(--indigo-0);
+    text-align: center;
+    padding: var(--size-2);
+    font-weight: var(--font-weight-5);
+    border-radius: var(--radius-2);
+    &:hover {
+      background: var(--indigo-7);
+      text-decoration: none;
     }
+  }
+}
 
-    .item-detail {
-      .item-title {
-        font-weight: var(--font-weight-6);
-      }
-      * {
-        font-size: var(--font-size-1);
-      }
+.cart-item {
+  padding: var(--size-3);
+  display: grid;
+  grid-template-columns: 3fr 3fr 1fr;
+  gap: var(--size-1);
+  border-bottom: 1px solid var(--indigo-1);
+  align-items: center;
+
+  @container slideover (width < 20rem) {
+    grid-template-columns: 1fr;
+  }
+
+  img {
+    height: var(--size-9);
+
+    .checkout & {
+      height: var(--size-11);
     }
+  }
+
+  .item-detail {
+    .item-title {
+      font-weight: var(--font-weight-6);
+    }
+    * {
+      font-size: var(--font-size-1);
+    }
+  }
+}
+
+.checkout-items {
+  max-width: var(--size-content-3);
+  margin: var(--size-6) auto;
+}
+.checkout {
+  .total {
+    text-align: center;
+    margin-top: var(--size-5);
+  }
+  .total * {
+    display: inline;
+  }
+  .val {
+    font-weight: var(--font-weight-7);
   }
 }
