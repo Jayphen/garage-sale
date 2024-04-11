@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"crypto/rand"
+	"encoding/hex"
+	"fmt"
 	"net/mail"
 
 	"garagesale.jayphen.dev/model"
@@ -10,6 +13,7 @@ import (
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbase/pocketbase/models"
 	"github.com/pocketbase/pocketbase/tools/mailer"
 )
 
@@ -74,6 +78,33 @@ func sendConfirmationEmail(e *core.ServeEvent) func(echo.Context) error {
 			return echo.NewHTTPError(500, "Could not save cart")
 		}
 
+		// todo: create a new entry in the db with a random token, used set to false and cartId set to the cartId
+
+		tokenCollection, err := e.App.Dao().FindCollectionByNameOrId("confirmation_tokens")
+		if err != nil {
+			return echo.NewHTTPError(500, "Could not save cart")
+		}
+
+		token := make([]byte, 32/2) // Divide by 2 since hex encoding uses 2 characters for each byte
+		if _, err := rand.Read(token); err != nil {
+			return echo.NewHTTPError(500, "Could not save cart")
+		}
+		encodedToken := hex.EncodeToString(token)
+
+		newTokenRecord := models.NewRecord(tokenCollection)
+		newTokenRecord.Set("used", false)
+		newTokenRecord.Set("cartId", cartId)
+		newTokenRecord.Set("token", encodedToken)
+
+		if err := e.App.Dao().SaveRecord(newTokenRecord); err != nil {
+			return echo.NewHTTPError(500, "Could not save cart")
+		}
+
+		// todo: send an email with that token
+		urlBase := e.App.Settings().Meta.AppUrl
+
+		// todo: throttling, queue
+
 		message := &mailer.Message{
 			From: mail.Address{
 				Address: e.App.Settings().Meta.SenderAddress,
@@ -81,7 +112,7 @@ func sendConfirmationEmail(e *core.ServeEvent) func(echo.Context) error {
 			},
 			To:      []mail.Address{{Address: c.FormValue("email")}},
 			Subject: "You bought stuff!",
-			HTML:    "Hello my friend! Please click this link to verify your order: https://google.com",
+			HTML:    fmt.Sprintf("Hello my friend! Please click this link to verify your order: %s/confirm/%s", urlBase, encodedToken),
 		}
 
 		if err := e.App.NewMailClient().Send(message); err != nil {
