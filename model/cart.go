@@ -90,6 +90,21 @@ func GetExistingCartRecord(dao *daos.Dao, cartId string) (*models.Record, error)
 	return cartRecord, nil
 }
 
+func SetCartEmail(dao *daos.Dao, cartId string, email string) error {
+	cartRecord, err := dao.FindRecordById("carts", cartId)
+	if err != nil {
+		return err
+	}
+
+	cartRecord.Set("email", email)
+
+	if err := dao.SaveRecord(cartRecord); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func createNewCartRecord(dao *daos.Dao, item *models.Record) (string, error) {
 	cartCollection, err := dao.FindCollectionByNameOrId("carts")
 	if err != nil {

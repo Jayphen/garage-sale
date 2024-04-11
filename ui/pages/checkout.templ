@@ -37,6 +37,17 @@ templ Checkout(c *model.ExpandedCart) {
       and were you so adventurous as to commit to purchasing these items, you would owe me a total of: { " " }
       @components.TotalPrice(c.TotalPrice)
     </div>
+    <form method="post" hx-post="/checkout" hx-target="this" hx-swap="innerHTML" class="checkout-form"
+      hx-disabled-elt="this">
+      <p>
+        Please enter your email address. I'll send you an email with a confirmation link, and once you confim, the
+        items will be reserved for you. Then we can use our words to figure out how to exchange money for goods
+      </p>
+      <fieldset>
+        <label>Your email address<input type="email" name="email" required /></label>
+        <input type="submit" value="Confirm" />
+      </fieldset>
+    </form>
   </div>
 </main>
 }

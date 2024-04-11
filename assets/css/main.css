@@ -21,6 +21,10 @@
   src: url(/assets/fonts/lora.ttf) format("truetype");
 }
 
+button {
+  text-shadow: 0;
+}
+
 h1 {
   font-size: var(--font-size-fluid-3);
   line-height: var(--font-lineheight-0);
@@ -398,5 +402,29 @@ body {
   }
   .val {
     font-weight: var(--font-weight-7);
+  }
+  form {
+    margin-top: var(--size-10);
+    display: block;
+    transition: opacity 0.2s linear;
+
+    &.htmx-request fieldset {
+      opacity: 0.6;
+    }
+  }
+  fieldset {
+    margin: var(--size-3) auto;
+    padding: var(--size-3);
+    display: grid;
+    gap: var(--size-2);
+    width: min-content;
+    input[type="email"] {
+      border: 1px solid var(--indigo-3);
+    }
+    input {
+      display: block;
+      margin: var(--size-2) 0;
+      text-shadow: none;
+    }
   }
 }
