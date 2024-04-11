@@ -5,7 +5,9 @@ import "garagesale.jayphen.dev/ui/components/item"
 import "garagesale.jayphen.dev/model"
 
 templ CartSlideover(cart model.ExpandedCart) {
-<div class="cart-overlay" _="on click send hide to the next .cart then transition opacity to 0 then remove me"></div>
+@Indicator(len(cart.CartItems))
+<div class="cart-overlay" _="on load transition opacity to 1
+on click send hide to the next .cart then transition opacity to 0 then remove me"></div>
 <div class="cart" _="on load add .visible to me
 on hide remove .visible from me then settle then remove me">
   <header>

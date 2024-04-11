@@ -34,6 +34,7 @@ func addToCart(e *core.ServeEvent) func(echo.Context) error {
 		newCartId, err := model.AddToCart(e.App.Dao(), item.Id, cartId)
 		if err != nil {
 			fmt.Println(err)
+			c.Response().Header().Set("HX-Reswap", "innerHTML")
 			return utils.Render(c, 400, toast.Toast("That's already in your cart. You should probably hurry up and buy it"))
 		}
 
@@ -46,8 +47,22 @@ func addToCart(e *core.ServeEvent) func(echo.Context) error {
 		session.Values["cartSize"] = cartSize
 		session.Save(c.Request(), c.Response())
 
-		c.Response().Header().Set("HX-Reswap", "outerHTML")
-		return utils.Render(c, 200, components.Indicator(cartSize))
+		cartRecord, err := model.GetExistingCartRecord(e.App.Dao(), newCartId)
+		if err != nil {
+			return err
+		}
+
+		e.App.Dao().ExpandRecord(cartRecord, []string{"cartItems"}, nil)
+
+		cart := model.Cart{
+			Id:        cartId,
+			Email:     "",
+			CartItems: cartRecord.GetStringSlice("cartItems"),
+		}
+
+		expandedCart := model.NewExpandedCartFromCart(cart, cartRecord.ExpandedAll("cartItems"))
+
+		return utils.Render(c, 200, components.CartSlideover(expandedCart))
 	}
 }
 

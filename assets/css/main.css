@@ -292,9 +292,9 @@ body {
   right: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
   z-index: 99;
-  backdrop-filter: blur(6px);
+  opacity: 0;
 }
 .cart {
   --cart-width: 20rem;

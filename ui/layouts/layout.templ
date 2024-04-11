@@ -17,8 +17,8 @@ templ Layout_base(cartSize int) {
   <title>Jayphen's Garage Sale, everything must go</title>
 </head>
 
-<body hx-ext="sse" sse-connect="/events">
-  <nav class="main-nav" hx-ext="response-targets">
+<body hx-ext="sse,response-targets" sse-connect="/events">
+  <nav class="main-nav">
     <span>Jayphen's garage sale</span>
     <ul>
       <li><a href="/" hx-boost>Home</a></li>

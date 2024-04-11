@@ -56,7 +56,7 @@ templ ItemCard(i *model.Item) {
       })
       }
       if i.Status == "available" {
-      <form hx-post="/cart" hx-target=".cart-indicator" hx-target-4*=".toasty" hx-swap="innerHTML">
+      <form hx-post="/cart" hx-target="body" hx-target-4*=".toasty" hx-swap="beforeend">
         <input type="hidden" name="itemId" value={ i.Id } />
         <button type="submit">Buy</button>
       </form>

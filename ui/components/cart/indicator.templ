@@ -3,7 +3,8 @@ package components
 import "fmt"
 
 templ Indicator(count int) {
-<div class="cart-indicator" hx-trigger="click" hx-get="/cart-preview" hx-target="body" hx-swap="beforeend">
+<div class="cart-indicator" hx-trigger="click" hx-get="/cart-preview" hx-target="body" hx-swap="beforeend"
+  hx-swap-oob="outerHTML:.cart-indicator">
   Cart: {
   fmt.Sprintf("%d",count) }
 </div>
