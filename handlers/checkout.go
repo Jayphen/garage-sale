@@ -51,14 +51,6 @@ func getCheckoutPage(e *core.ServeEvent) func(echo.Context) error {
 	}
 }
 
-func RegisterCheckoutHandlers(app *pocketbase.PocketBase) {
-	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-		e.Router.GET("/checkout", getCheckoutPage(e))
-		e.Router.POST("/checkout", sendConfirmationEmail(e))
-		return nil
-	})
-}
-
 func sendConfirmationEmail(e *core.ServeEvent) func(echo.Context) error {
 	return func(c echo.Context) error {
 		userEmail := c.FormValue("email")
@@ -105,6 +97,12 @@ func sendConfirmationEmail(e *core.ServeEvent) func(echo.Context) error {
 
 		// todo: throttling, queue
 
+		fmt.Println(urlBase)
+
+		html := fmt.Sprintf("Hello my friend! Please click this link to verify your order: %s/confirm/%s", urlBase, encodedToken)
+
+		fmt.Println(html)
+
 		message := &mailer.Message{
 			From: mail.Address{
 				Address: e.App.Settings().Meta.SenderAddress,
@@ -112,13 +110,28 @@ func sendConfirmationEmail(e *core.ServeEvent) func(echo.Context) error {
 			},
 			To:      []mail.Address{{Address: c.FormValue("email")}},
 			Subject: "You bought stuff!",
-			HTML:    fmt.Sprintf("Hello my friend! Please click this link to verify your order: %s/confirm/%s", urlBase, encodedToken),
+			HTML:    html,
 		}
 
 		if err := e.App.NewMailClient().Send(message); err != nil {
-			return err
+			return echo.NewHTTPError(500, "Could not send email")
 		}
 
 		return utils.Render(c, 200, components.Thanks())
 	}
+}
+
+func confirmToken(e *core.ServeEvent) func(echo.Context) error {
+	return func(c echo.Context) error {
+		return utils.Render(c, 200, components.Confirm())
+	}
+}
+
+func RegisterCheckoutHandlers(app *pocketbase.PocketBase) {
+	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+		e.Router.GET("/checkout", getCheckoutPage(e))
+		e.Router.GET("/confirm/:token", confirmToken(e))
+		e.Router.POST("/checkout", sendConfirmationEmail(e))
+		return nil
+	})
 }
