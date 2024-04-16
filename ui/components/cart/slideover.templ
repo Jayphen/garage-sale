@@ -5,11 +5,17 @@ import "garagesale.jayphen.dev/ui/components/item"
 import "garagesale.jayphen.dev/model"
 
 templ CartSlideover(cart model.ExpandedCart) {
-@Indicator(len(cart.CartItems))
 <div class="cart-overlay" _="on load transition opacity to 1
 on click send hide to the next .cart then transition opacity to 0 then remove me"></div>
 <div class="cart" _="on load add .visible to me
 on hide remove .visible from me then settle then remove me">
+  @CartContents(cart)
+</div>
+}
+
+templ CartContents(cart model.ExpandedCart) {
+@Indicator(len(cart.CartItems))
+<div class="cart-contents">
   <header>
     <h4>These things are in your cart</h4>
     <p>But be careful coz someone else might buy them any second now</p>
@@ -23,6 +29,14 @@ on hide remove .visible from me then settle then remove me">
       <span class="item-title">{ i.Title }</span>
       @components.Price(components.ItemPrice{Id: i.Id, Price: i.Price})
     </div>
+    <button type="button" class="delete-btn" hx-delete={ fmt.Sprintf("/cart/%s", i.Id) } hx-target=".cart-contents"
+      aria-label="Delete from cart">
+      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z">
+        </path>
+      </svg>
+    </button>
   </div>
   }
   @components.TotalPrice(cart.TotalPrice)

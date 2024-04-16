@@ -386,6 +386,15 @@ body {
       font-size: var(--font-size-1);
     }
   }
+  .delete-btn {
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+    &:hover {
+      color: var(--indigo-6);
+    }
+  }
 }
 
 .checkout-items {

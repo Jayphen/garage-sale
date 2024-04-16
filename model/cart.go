@@ -82,6 +82,36 @@ func AddToCart(dao *daos.Dao, id string, cartId string) (string, error) {
 	}
 }
 
+func RemoveFromCart(dao *daos.Dao, cartRecord *models.Record, itemId string) error {
+	// Check if the item is already in the cart
+	existingCartItems, ok := cartRecord.Get("cartItems").([]string)
+	if !ok || existingCartItems == nil {
+		return errors.New("Cart is empty")
+	}
+
+	var updatedCartItems []string
+	var itemFound bool
+
+	for i, item := range existingCartItems {
+		if item == itemId {
+			updatedCartItems = append(existingCartItems[:i], existingCartItems[i+1:]...)
+			cartRecord.Set("cartItems", updatedCartItems)
+			itemFound = true
+			break
+		}
+	}
+
+	if !itemFound {
+		return errors.New("Item not found in cart")
+	}
+
+	if err := dao.SaveRecord(cartRecord); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func GetExistingCartRecord(dao *daos.Dao, cartId string) (*models.Record, error) {
 	cartRecord, err := dao.FindRecordById("carts", cartId)
 	if err != nil {

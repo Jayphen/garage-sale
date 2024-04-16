@@ -132,9 +132,48 @@ func getCartTotal(e *core.ServeEvent) func(echo.Context) error {
 	}
 }
 
+func removeFromCart(e *core.ServeEvent) func(echo.Context) error {
+	return func(c echo.Context) error {
+		session := utils.GetSession(c.Request())
+		itemId := c.PathParam("item")
+
+		// Retrieve cart ID from the session if it exists
+		cartId, ok := session.Values["cart"].(string)
+		if !ok {
+			cartId = ""
+		}
+
+		if cartId != "" {
+			cartRecord, err := model.GetExistingCartRecord(e.App.Dao(), cartId)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println(cartRecord.GetStringSlice("cartItems"))
+
+			if err := model.RemoveFromCart(e.App.Dao(), cartRecord, itemId); err != nil {
+				return err
+			}
+
+			cart := model.Cart{
+				Id:        cartRecord.GetString("id"),
+				CartItems: cartRecord.GetStringSlice("cartItems"),
+			}
+
+			e.App.Dao().ExpandRecord(cartRecord, []string{"cartItems"}, nil)
+			expandedCart := model.NewExpandedCartFromCart(cart, cartRecord.ExpandedAll("cartItems"))
+
+			return utils.Render(c, 200, components.CartContents(expandedCart))
+		}
+
+		return nil
+	}
+}
+
 func RegisterCartHandlers(app *pocketbase.PocketBase) {
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.POST("/cart", addToCart(e))
+		e.Router.DELETE("/cart/:item", removeFromCart(e))
 		e.Router.GET("/cart-preview", getCartPreview(e))
 		e.Router.GET("/cart-total", getCartTotal(e))
 		return nil
