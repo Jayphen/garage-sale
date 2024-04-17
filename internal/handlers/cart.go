@@ -8,10 +8,19 @@ import (
 	components "garagesale.jayphen.dev/ui/components/cart"
 	price "garagesale.jayphen.dev/ui/components/item"
 	"garagesale.jayphen.dev/utils"
+	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 )
+
+func getSessionCart(session *sessions.Session) string {
+	cartId, ok := session.Values["cart"].(string)
+	if !ok {
+		return ""
+	}
+	return cartId
+}
 
 func addToCart(e *core.ServeEvent) func(echo.Context) error {
 	return func(c echo.Context) error {
@@ -24,12 +33,7 @@ func addToCart(e *core.ServeEvent) func(echo.Context) error {
 		}
 
 		session := utils.GetSession(c.Request())
-
-		// Retrieve cart ID from the session if it exists
-		cartId, ok := session.Values["cart"].(string)
-		if !ok {
-			cartId = ""
-		}
+		cartId := getSessionCart(session)
 
 		newCartId, err := model.AddToCart(e.App.Dao(), item.Id, cartId)
 		if err != nil {
@@ -69,12 +73,7 @@ func addToCart(e *core.ServeEvent) func(echo.Context) error {
 func getCartPreview(e *core.ServeEvent) func(echo.Context) error {
 	return func(c echo.Context) error {
 		session := utils.GetSession(c.Request())
-
-		// Retrieve cart ID from the session if it exists
-		cartId, ok := session.Values["cart"].(string)
-		if !ok {
-			cartId = ""
-		}
+		cartId := getSessionCart(session)
 
 		if cartId != "" {
 			cartRecord, err := model.GetExistingCartRecord(e.App.Dao(), cartId)
@@ -103,12 +102,7 @@ func getCartPreview(e *core.ServeEvent) func(echo.Context) error {
 func getCartTotal(e *core.ServeEvent) func(echo.Context) error {
 	return func(c echo.Context) error {
 		session := utils.GetSession(c.Request())
-
-		// Retrieve cart ID from the session if it exists
-		cartId, ok := session.Values["cart"].(string)
-		if !ok {
-			cartId = ""
-		}
+		cartId := getSessionCart(session)
 
 		if cartId != "" {
 			cartRecord, err := model.GetExistingCartRecord(e.App.Dao(), cartId)
@@ -135,13 +129,9 @@ func getCartTotal(e *core.ServeEvent) func(echo.Context) error {
 func removeFromCart(e *core.ServeEvent) func(echo.Context) error {
 	return func(c echo.Context) error {
 		session := utils.GetSession(c.Request())
-		itemId := c.PathParam("item")
+		cartId := getSessionCart(session)
 
-		// Retrieve cart ID from the session if it exists
-		cartId, ok := session.Values["cart"].(string)
-		if !ok {
-			cartId = ""
-		}
+		itemId := c.PathParam("item")
 
 		if cartId != "" {
 			cartRecord, err := model.GetExistingCartRecord(e.App.Dao(), cartId)
