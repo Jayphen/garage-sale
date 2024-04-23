@@ -19,3 +19,7 @@ tasks:
     deps: [watch_pb,watch_templ]
     cmds:
       - echo "watching pb and templ"
+  deploy:
+    cmds:
+      - templ generate
+      - flyctl deploy
