@@ -3,11 +3,11 @@ package handlers
 import (
 	"fmt"
 
-	"garagesale.jayphen.dev/model"
+	"garagesale.jayphen.dev/internal/model"
+	"garagesale.jayphen.dev/internal/utils"
 	toast "garagesale.jayphen.dev/ui/components"
 	components "garagesale.jayphen.dev/ui/components/cart"
 	price "garagesale.jayphen.dev/ui/components/item"
-	"garagesale.jayphen.dev/utils"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"

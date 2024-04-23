@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	"garagesale.jayphen.dev/crontab"
-	"garagesale.jayphen.dev/handlers"
-	"garagesale.jayphen.dev/utils"
+	"garagesale.jayphen.dev/internal/crontab"
+	"garagesale.jayphen.dev/internal/handlers"
+	"garagesale.jayphen.dev/internal/utils"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 )

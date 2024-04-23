@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"garagesale.jayphen.dev/handlers"
+	"garagesale.jayphen.dev/internal/handlers"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/tools/cron"
 )

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"garagesale.jayphen.dev/model"
+	"garagesale.jayphen.dev/internal/model"
+	"garagesale.jayphen.dev/internal/utils"
 	"garagesale.jayphen.dev/ui/pages"
-	"garagesale.jayphen.dev/utils"
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"

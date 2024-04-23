@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"net/mail"
 
-	"garagesale.jayphen.dev/model"
+	"garagesale.jayphen.dev/internal/model"
+	"garagesale.jayphen.dev/internal/utils"
 	components "garagesale.jayphen.dev/ui/components/checkout"
 	"garagesale.jayphen.dev/ui/pages"
-	"garagesale.jayphen.dev/utils"
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
