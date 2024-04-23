@@ -1,9 +1,7 @@
 /* the props */
 @import "https://unpkg.com/open-props";
 
-/* optional imports that use the props */
 @import "https://unpkg.com/open-props/normalize.min.css";
-@import "https://unpkg.com/open-props/buttons.min.css";
 
 @font-face {
   font-family: oswald;
@@ -23,6 +21,7 @@
 
 button {
   text-shadow: 0;
+  appearance: none;
 }
 
 h1 {
@@ -122,14 +121,13 @@ body {
     }
   }
 
-  .item[data-item-status="frozen"] {
-    .price {
-      text-align: center;
-      flex-grow: 1;
-    }
-    .price .val {
-      color: var(--stone-08);
-    }
+  .price.reserved {
+    color: var(--gray-6);
+    text-align: center;
+    flex-grow: 1;
+  }
+  .price.reserved .val {
+    color: var(--gray-6);
   }
 
   p {
@@ -146,7 +144,7 @@ body {
   h3 {
     margin: 0;
     padding: 0;
-    font-weight: var(--font-weight-7);
+    font-weight: var(--font-weight-4);
     font-size: var(--font-size-4);
     line-height: var(--font-lineheight-2);
     color: var(--stone-11);
@@ -175,21 +173,20 @@ body {
   }
 
   button {
-    height: max-content;
-    padding-inline: var(--size-5);
-    margin: 0;
-    background: var(--indigo-9);
     cursor: pointer;
-    font-family: var(--font-sans);
-    color: var(--sand-0);
-    text-shadow: none;
-    border: 0;
+    color: var(--sand-12);
     font-weight: var(--font-weight-5);
+    background: transparent;
+    font-size: var(--font-size-4);
+    border: 0;
+    padding: var(--size-1) var(--size-2);
     border-radius: var(--radius-2);
-    line-height: var(--font-lineheight-00);
+    text-decoration: underline;
+    line-height: 0;
 
     &:hover {
-      background: var(--indigo-7);
+      background: var(--yellow-1);
+      text-decoration: none;
     }
   }
 }

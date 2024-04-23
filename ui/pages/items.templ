@@ -38,9 +38,6 @@ templ ItemCard(i *model.Item) {
       <h3><a href={ templ.URL(fmt.Sprintf("/items/%s", i.Id)) } hx-boost>{ i.Title }</a></h3>
       <p>{ i.Description }</p>
     </header>
-    if i.Status == "frozen" {
-    @Frozen()
-    }
   </div>
   <div class="actions">
     <div class="stack">
@@ -58,7 +55,7 @@ templ ItemCard(i *model.Item) {
       if i.Status == "available" {
       <form hx-post="/cart" hx-target="body" hx-target-4*=".toasty" hx-swap="beforeend">
         <input type="hidden" name="itemId" value={ i.Id } />
-        <button type="submit">Buy</button>
+        <button type="submit">Reserve</button>
       </form>
       }
     </div>
