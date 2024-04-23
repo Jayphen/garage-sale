@@ -1,0 +1,19 @@
+package pages
+
+import "garagesale.jayphen.dev/ui/layouts"
+import "garagesale.jayphen.dev/internal/model"
+
+templ Confirm(cart model.ExpandedCart) {
+@layouts.Layout_base(0) {
+<main>
+  <header>
+    <h1>Your items are reserved</h1>
+  </header>
+  for _, i := range cart.CartItems {
+  <div class="item-detail">
+    <span class="item-title">{ i.Title }</span>
+  </div>
+  }
+</main>
+}
+}

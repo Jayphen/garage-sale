@@ -11,6 +11,7 @@ import (
 	components "garagesale.jayphen.dev/ui/components/checkout"
 	"garagesale.jayphen.dev/ui/pages"
 	"github.com/labstack/echo/v5"
+	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/models"
@@ -92,7 +93,6 @@ func sendConfirmationEmail(e *core.ServeEvent) func(echo.Context) error {
 			return echo.NewHTTPError(500, "Could not save cart")
 		}
 
-		// todo: send an email with that token
 		urlBase := e.App.Settings().Meta.AppUrl
 
 		// todo: throttling, queue
@@ -123,7 +123,28 @@ func sendConfirmationEmail(e *core.ServeEvent) func(echo.Context) error {
 
 func confirmToken(e *core.ServeEvent) func(echo.Context) error {
 	return func(c echo.Context) error {
-		return utils.Render(c, 200, components.Confirm())
+		token := c.PathParam("token")
+
+		tokenRecord, err := e.App.Dao().FindFirstRecordByFilter("confirmation_tokens", "token={:token}", dbx.Params{"token": token})
+		if err != nil {
+			fmt.Errorf(err.Error())
+			return echo.NewHTTPError(500, "Your link seems to be invalid")
+		}
+
+		cartRecord, err := model.GetExistingCartRecord(e.App.Dao(), tokenRecord.Get("cartId").(string))
+		if err != nil {
+			fmt.Errorf(err.Error())
+			return echo.NewHTTPError(500, "Something went wrong")
+		}
+
+		cart := model.Cart{
+			Id:        cartRecord.GetString("id"),
+			CartItems: cartRecord.GetStringSlice("cartItems"),
+		}
+		e.App.Dao().ExpandRecord(cartRecord, []string{"cartItems"}, nil)
+		expandedCart := model.NewExpandedCartFromCart(cart, cartRecord.ExpandedAll("cartItems"))
+
+		return utils.Render(c, 200, pages.Confirm(expandedCart))
 	}
 }
 

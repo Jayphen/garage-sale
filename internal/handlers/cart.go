@@ -139,8 +139,6 @@ func removeFromCart(e *core.ServeEvent) func(echo.Context) error {
 				return err
 			}
 
-			fmt.Println(cartRecord.GetStringSlice("cartItems"))
-
 			if err := model.RemoveFromCart(e.App.Dao(), cartRecord, itemId); err != nil {
 				return err
 			}
