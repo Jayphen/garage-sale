@@ -10,8 +10,8 @@ import (
 templ ItemsPage(items []*model.Item, cartSize int) {
 @layouts.Layout_base(cartSize) {
 <h1>Buy my things</h1>
-<p style="margin: auto; color: var(--gray-7)">
-  <strong>How this works:</strong> the opening hours of the store at 09:00-21:00. Prices drop every 2 seconds, and
+<p class="intro">
+  <strong>How this works:</strong> the opening hours of the store are 09:00-21:00. Prices drop every 2 seconds, and
   reset every evening. When you
   click buy, you lock in that price. You could wait for it to get cheaper, but someone else might snap up that sweet
   item that you desired. I would recommend buying things at the highest price possible, just to be safe.
@@ -31,8 +31,10 @@ templ ItemsList(items []*model.Item) {
 templ ItemCard(i *model.Item) {
 <div class="item" data-item-id={ i.Id } data-item-status={ string(i.Status) }>
   <div>
-    for _, im := range i.Images {
+    for index, im := range i.Images {
+    if index == 0 {
     <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
+    }
     }
     <header>
       <h3><a href={ templ.URL(fmt.Sprintf("/items/%s", i.Id)) } hx-boost>{ i.Title }</a></h3>
@@ -53,7 +55,7 @@ templ ItemCard(i *model.Item) {
       })
       }
       if i.Status == "available" {
-      <form hx-post="/cart" hx-target="body" hx-target-4*=".toasty" hx-swap="beforeend">
+      <form hx-post="/cart" hx-target="body" hx-target-4*=".toasty" hx-swap="beforeend" class="reserve">
         <input type="hidden" name="itemId" value={ i.Id } />
         <button type="submit">Reserve</button>
       </form>

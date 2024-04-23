@@ -29,6 +29,12 @@ templ ItemPage(i *model.Item, cartSize int) {
     Price: i.Price,
     })
     }
+    if i.Status == "available" {
+    <form hx-post="/cart" hx-target="body" hx-target-4*=".toasty" hx-swap="beforeend" class="reserve">
+      <input type="hidden" name="itemId" value={ i.Id } />
+      <button type="submit">Reserve</button>
+    </form>
+    }
   </div>
 </main>
 }

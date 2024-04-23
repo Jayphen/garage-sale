@@ -40,9 +40,11 @@ h2 {
   margin: 0 auto var(--size-2);
   font-weight: var(--font-weight-5);
   text-align: center;
-  color: var(--indigo-6);
 }
 
+.intro {
+  margin: 0 auto;
+}
 .spiel {
   justify-content: center;
   display: grid;
@@ -90,6 +92,10 @@ body {
     grid-template-rows: 1fr min-content;
     line-height: var(--font-lineheight-2);
     position: relative;
+
+    header a {
+      color: var(--gray-12);
+    }
 
     &:before,
     &:after {
@@ -171,15 +177,17 @@ body {
       padding: 0;
     }
   }
+}
 
+.reserve {
   button {
+    font-family: var(--font-serif);
     cursor: pointer;
     color: var(--sand-12);
     font-weight: var(--font-weight-5);
     background: transparent;
     font-size: var(--font-size-4);
     border: 0;
-    padding: var(--size-1) var(--size-2);
     border-radius: var(--radius-2);
     text-decoration: underline;
     line-height: 0;
@@ -222,6 +230,12 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--size-4);
+  position: relative;
+  align-items: start;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 
   h1 {
     font-size: var(--font-size-6);
@@ -230,9 +244,13 @@ body {
   }
 
   .key-info {
-    top: 0;
+    top: 2rem;
     left: 0;
     position: sticky;
+
+    & > * + * {
+      margin-top: var(--size-4);
+    }
   }
 }
 
@@ -365,14 +383,14 @@ body {
   .checkout-btn {
     display: block;
     margin: var(--size-6) var(--size-2);
-    background: var(--indigo-9);
+    background: var(--gray-12);
     color: var(--indigo-0);
     text-align: center;
     padding: var(--size-2);
     font-weight: var(--font-weight-5);
     border-radius: var(--radius-2);
     &:hover {
-      background: var(--indigo-7);
+      background: var(--indigo-9);
       text-decoration: none;
     }
   }
