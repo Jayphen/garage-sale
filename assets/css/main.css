@@ -26,14 +26,16 @@ button {
 }
 
 h1 {
+  font-family: var(--font-serif);
   font-size: var(--font-size-fluid-3);
   line-height: var(--font-lineheight-0);
   margin: 0 auto var(--size-2);
   font-weight: var(--font-weight-6);
   text-align: center;
-  color: var(--indigo-6);
+  color: var(--stone-12);
 }
 h2 {
+  font-family: var(--font-serif);
   font-size: var(--font-size-fluid-2);
   line-height: var(--font-lineheight-0);
   margin: 0 auto var(--size-2);
@@ -69,25 +71,55 @@ body {
 }
 
 .items {
+  --gap: var(--size-7);
+  --line-offset: calc(var(--gap) / 2);
   max-width: 120ch;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--size-3);
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
   margin-top: var(--size-10);
+  overflow: hidden;
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
 
   .item {
-    border-radius: var(--radius-2);
-    text-align: left;
-    overflow: hidden;
+    font-family: var(--font-serif);
     display: grid;
     grid-template-rows: 1fr min-content;
-    background: var(--stone-2);
     line-height: var(--font-lineheight-2);
+    position: relative;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      background-color: var(--stone-10);
+      z-index: 1;
+    }
+    &:before {
+      inline-size: 1px;
+      block-size: 100vh;
+      inset-block-start: 0;
+      inset-inline-start: calc(var(--line-offset) * -1);
+    }
+
+    &:after {
+      inline-size: 100vw;
+      block-size: 1px;
+      inset-inline-start: 0;
+      inset-block-start: calc(var(--line-offset) * -1);
+    }
+
+    img + * {
+      margin-top: var(--size-3);
+    }
+
+    > * + * {
+      margin-top: var(--size-3);
+    }
   }
 
   .item[data-item-status="frozen"] {
@@ -98,11 +130,6 @@ body {
     .price .val {
       color: var(--stone-08);
     }
-  }
-
-  header,
-  .stack {
-    padding: var(--size-3);
   }
 
   p {
@@ -128,8 +155,6 @@ body {
   .price {
     font-family: var(--font-sans);
     font-size: var(--font-size-1);
-    padding: var(--size-1);
-    border-radius: var(--radius-2);
 
     .val {
       color: var(--lime-9);
@@ -138,9 +163,7 @@ body {
   }
 
   .actions {
-    margin: var(--size-2);
     background: var(--sand-0);
-    padding: var(--size-3);
     border-radius: var(--radius-2);
 
     .stack {
