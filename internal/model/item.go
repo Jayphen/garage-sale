@@ -114,8 +114,8 @@ func (item *Item) SetItemStatus(dao *daos.Dao, status ItemStatus) error {
 }
 
 const (
-	OperationalStartHour = 9
-	OperationalEndHour   = 21
+	OperationalStartHour = 7
+	OperationalEndHour   = 19
 	timeFormat           = "2006-01-02 15:04:05.999Z"
 )
 

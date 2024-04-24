@@ -14,8 +14,8 @@ import (
 )
 
 const (
-	operationalStartHour = 9
-	operationalEndHour   = 21
+	operationalStartHour = 7
+	operationalEndHour   = 19
 )
 
 func RegisterHomeHandlers(app *pocketbase.PocketBase) {
@@ -42,7 +42,7 @@ func RegisterHomeHandlers(app *pocketbase.PocketBase) {
 
 			currentHour := time.Now().Hour()
 			open := true
-			if currentHour <= operationalStartHour || currentHour > operationalEndHour {
+			if currentHour <= operationalStartHour || currentHour >= operationalEndHour {
 				open = false
 			}
 

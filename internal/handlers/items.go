@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"time"
 
 	"garagesale.jayphen.dev/internal/model"
 	"garagesale.jayphen.dev/internal/utils"
@@ -42,7 +43,13 @@ func ItemGet(e *core.ServeEvent) func(echo.Context) error {
 			return err
 		}
 
-		return utils.Render(c, 200, pages.ItemPage(item, utils.GetCartSize(c.Request())))
+		currentHour := time.Now().Hour()
+		open := true
+		if currentHour <= operationalStartHour || currentHour >= operationalEndHour {
+			open = false
+		}
+
+		return utils.Render(c, 200, pages.ItemPage(item, utils.GetCartSize(c.Request()), open))
 	}
 }
 

@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	operationalStartHour = 9
-	operationalEndHour   = 21
+	operationalStartHour = 7
+	operationalEndHour   = 19
 )
 
 func RegisterCronJobs(app *pocketbase.PocketBase) {

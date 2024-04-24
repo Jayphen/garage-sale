@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"time"
 
 	"garagesale.jayphen.dev/internal/model"
 	"garagesale.jayphen.dev/internal/utils"
@@ -65,6 +66,16 @@ func addToCart(e *core.ServeEvent) func(echo.Context) error {
 		}
 
 		expandedCart := model.NewExpandedCartFromCart(cart, cartRecord.ExpandedAll("cartItems"))
+
+		currentHour := time.Now().Hour()
+		open := true
+		if currentHour <= operationalStartHour || currentHour >= operationalEndHour {
+			open = false
+		}
+
+		if open == false {
+			return nil
+		}
 
 		return utils.Render(c, 200, components.CartSlideover(expandedCart))
 	}

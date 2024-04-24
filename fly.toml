@@ -17,12 +17,12 @@ primary_region = 'ams'
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ['app']
   [http_service.concurrency]
     hard_limit = 2500
     soft_limit = 2000
-    type = "connections"
+    type = "requests"
 
 [[vm]]
   size = 'shared-cpu-1x'

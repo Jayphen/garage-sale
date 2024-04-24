@@ -5,7 +5,7 @@ import "fmt"
 import "garagesale.jayphen.dev/ui/layouts"
 import "garagesale.jayphen.dev/ui/components/item"
 
-templ ItemPage(i *model.Item, cartSize int) {
+templ ItemPage(i *model.Item, cartSize int, open bool) {
 @layouts.Layout_base(cartSize) {
 <main class="item-page">
   <div class="imagery">
@@ -36,7 +36,7 @@ templ ItemPage(i *model.Item, cartSize int) {
     Price: i.Price,
     })
     }
-    if i.Status == "available" {
+    if i.Status == "available" && open == true {
     <form hx-post="/cart" hx-target="body" hx-target-4*=".toasty" hx-swap="beforeend" class="reserve">
       <input type="hidden" name="itemId" value={ i.Id } />
       <button type="submit">Reserve</button>
