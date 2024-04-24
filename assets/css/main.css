@@ -300,8 +300,13 @@ body {
   padding-inline: var(--size-8);
 
   @media (max-width: 600px) {
-    padding-inline: var(--size-2);
+    padding: var(--size-1);
     font-size: var(--font-size-1);
+    gap: var(--size-3);
+    margin-bottom: var(--size-2);
+    * {
+      font-size: var(--font-size-1);
+    }
   }
 
   ul,
@@ -329,7 +334,12 @@ body {
     border-radius: var(--radius-2);
     &:hover {
       color: var(--indigo-4);
-      border: 1px solid var(--indigo-4);
+      border-color: var(--indigo-4);
+    }
+
+    @media (max-width: 600px) {
+      border: 0;
+      text-decoration: underline;
     }
   }
 }

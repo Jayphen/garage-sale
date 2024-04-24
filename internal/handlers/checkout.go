@@ -127,7 +127,7 @@ func confirmToken(e *core.ServeEvent) func(echo.Context) error {
 
 		tokenRecord, err := e.App.Dao().FindFirstRecordByFilter("confirmation_tokens", "token={:token}", dbx.Params{"token": token})
 		if err != nil {
-			fmt.Errorf(err.Error())
+			fmt.Println(err.Error())
 			return echo.NewHTTPError(500, "Your link seems to be invalid")
 		}
 
@@ -138,7 +138,7 @@ func confirmToken(e *core.ServeEvent) func(echo.Context) error {
 		// get the cart
 		cartRecord, err := model.GetExistingCartRecord(e.App.Dao(), tokenRecord.Get("cartId").(string))
 		if err != nil {
-			fmt.Errorf(err.Error())
+			fmt.Println(err.Error())
 			return echo.NewHTTPError(500, "Something went wrong")
 		}
 
