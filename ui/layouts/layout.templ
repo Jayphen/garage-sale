@@ -3,33 +3,32 @@ package layouts
 import "garagesale.jayphen.dev/ui/components/cart"
 
 templ Layout_base(cartSize int) {
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="/assets/js/htmx.min.js" defer></script>
-  <script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/sse.js" defer></script>
-  <script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/response-targets.js" defer></script>
-  <script src="https://unpkg.com/hyperscript.org@0.9.12" defer></script>
-  <link rel="stylesheet" href="/assets/css/main.css" type="text/css" />
-  <title>Jayphen's Garage Sale, everything must go</title>
-</head>
-
-<body hx-ext="sse,response-targets" sse-connect="/events">
-  <nav class="main-nav">
-    <span>Jayphen's garage sale</span>
-    <ul>
-      <li><a href="/" hx-boost>Home</a></li>
-    </ul>
-    @components.Indicator(cartSize)
-  </nav>
-  <div id="toasts">
-    <div class="toasty"></div>
-  </div>
-  { children... }
-  <script>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<meta property="og:image" content="/assets/img/buy-things.webp"/>
+			<script src="/assets/js/htmx.min.js" defer></script>
+			<script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/sse.js" defer></script>
+			<script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/response-targets.js" defer></script>
+			<script src="https://unpkg.com/hyperscript.org@0.9.12" defer></script>
+			<link rel="stylesheet" href="/assets/css/main.css" type="text/css"/>
+			<title>Jayphen's Garage Sale, everything must go</title>
+		</head>
+		<body hx-ext="sse,response-targets" sse-connect="/events">
+			<nav class="main-nav">
+				<span>Jayphen's garage sale</span>
+				<ul>
+					<li><a href="/" hx-boost>Home</a></li>
+				</ul>
+				@components.Indicator(cartSize)
+			</nav>
+			<div id="toasts">
+				<div class="toasty"></div>
+			</div>
+			{ children... }
+			<script>
     document.body.addEventListener('htmx:afterSwap', function (event) {
       // Apply the highlight effect to the swapped element
       var swappedElement = event.detail.elt; // This is the element that was swapped
@@ -40,7 +39,6 @@ templ Layout_base(cartSize int) {
       });
     });
   </script>
-</body>
-
-</html>
+		</body>
+	</html>
 }
