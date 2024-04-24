@@ -29,7 +29,7 @@ func ItemsGet(e *core.ServeEvent, app *pocketbase.PocketBase) func(echo.Context)
 			return err
 		}
 
-		return utils.Render(c, 200, pages.ItemsList(items))
+		return utils.Render(c, 200, pages.ItemsList(items, true))
 	}
 }
 
@@ -82,6 +82,6 @@ func ItemStatusSet(e *core.ServeEvent) func(echo.Context) error {
 			return err
 		}
 
-		return utils.Render(c, 200, pages.ItemCard(item))
+		return utils.Render(c, 200, pages.ItemCard(item, true))
 	}
 }

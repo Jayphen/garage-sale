@@ -155,7 +155,7 @@ func confirmToken(e *core.ServeEvent) func(echo.Context) error {
 			item.SetItemStatus(e.App.Dao(), "sold")
 		}
 
-		return utils.Render(c, 200, pages.Confirm(expandedCart))
+		return utils.Render(c, 200, pages.Confirm(&expandedCart))
 	}
 }
 

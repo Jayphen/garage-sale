@@ -38,7 +38,7 @@ func RegisterCronJobs(app *pocketbase.PocketBase) {
 				case <-ticker.C:
 					currentHour := time.Now().Hour()
 					if currentHour >= operationalStartHour && currentHour < operationalEndHour {
-						err := decPricingTick(app)
+						err := decPricingTick()
 						if err != nil {
 							fmt.Println("Error executing pricing tick:", err)
 						}

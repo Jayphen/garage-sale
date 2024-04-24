@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 
 	"github.com/pocketbase/pocketbase/daos"
@@ -19,6 +20,7 @@ type ExpandedCart struct {
 	Cart
 	CartItems  []Item `db:"cartItems" json:"cartItems"`
 	TotalPrice string
+	FinalPrice string
 	CartSize   int
 }
 
@@ -32,11 +34,16 @@ func NewExpandedCartFromCart(cart Cart, items []*models.Record) ExpandedCart {
 
 	for i, item := range items {
 		cartItem := Item{
-			Title:  item.GetString("title"),
-			Price:  item.GetInt("price"),
-			Id:     item.GetString("id"),
-			Images: item.GetStringSlice("images"),
+			Title:     item.GetString("title"),
+			Price:     item.GetInt("price"),
+			SellPrice: item.GetInt("sellPrice"),
+			Id:        item.GetString("id"),
+			Images:    item.GetStringSlice("images"),
+			MinPrice:  item.GetInt("minPrice"),
+			MaxPrice:  item.GetInt("maxPrice"),
 		}
+
+		cartItem.Price = cartItem.CalculateCurrentPrice()
 
 		expandedCart.CartItems[i] = cartItem
 	}
@@ -49,10 +56,15 @@ func NewExpandedCartFromCart(cart Cart, items []*models.Record) ExpandedCart {
 
 func (c *ExpandedCart) getTotalPrice() {
 	total := 0
+	finalTotal := 0
 	for _, item := range c.CartItems {
 		total += item.Price
+		finalTotal += item.SellPrice
 	}
+
+	fmt.Println(finalTotal)
 	c.TotalPrice = strconv.FormatFloat(float64(total)/100.0, 'f', 2, 64)
+	c.FinalPrice = strconv.FormatFloat(float64(finalTotal)/100.0, 'f', 2, 64)
 }
 
 var _ models.Model = (*Cart)(nil)

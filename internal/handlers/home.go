@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"garagesale.jayphen.dev/internal/model"
 	"garagesale.jayphen.dev/internal/utils"
@@ -10,6 +11,11 @@ import (
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
+)
+
+const (
+	operationalStartHour = 9
+	operationalEndHour   = 21
 )
 
 func RegisterHomeHandlers(app *pocketbase.PocketBase) {
@@ -34,7 +40,13 @@ func RegisterHomeHandlers(app *pocketbase.PocketBase) {
 				}
 			}
 
-			return utils.Render(c, http.StatusOK, pages.ItemsPage(items, cartSize))
+			currentHour := time.Now().Hour()
+			open := true
+			if currentHour <= operationalStartHour || currentHour > operationalEndHour {
+				open = false
+			}
+
+			return utils.Render(c, http.StatusOK, pages.ItemsPage(items, cartSize, open))
 		})
 
 		return nil
