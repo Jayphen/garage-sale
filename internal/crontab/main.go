@@ -1,11 +1,17 @@
 package crontab
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/tools/cron"
+)
+
+const (
+	operationalStartHour = 9
+	operationalEndHour   = 21
 )
 
 func RegisterCronJobs(app *pocketbase.PocketBase) {
@@ -30,7 +36,13 @@ func RegisterCronJobs(app *pocketbase.PocketBase) {
 					ticker.Stop()
 					return
 				case <-ticker.C:
-					decPricingTick(app)
+					currentHour := time.Now().Hour()
+					if currentHour >= operationalStartHour && currentHour < operationalEndHour {
+						err := decPricingTick(app)
+						if err != nil {
+							fmt.Println("Error executing pricing tick:", err)
+						}
+					}
 				}
 			}
 		}()

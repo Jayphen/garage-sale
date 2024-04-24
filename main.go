@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"garagesale.jayphen.dev/internal/crontab"
 	"garagesale.jayphen.dev/internal/handlers"
@@ -11,6 +12,8 @@ import (
 )
 
 func init() {
+	time.LoadLocation("Europe/Vienna")
+
 	utils.CreateStore()
 }
 
