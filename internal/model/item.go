@@ -37,13 +37,14 @@ func (is *ItemStatus) ParseFormValue(value string) error {
 
 type Item struct {
 	models.BaseModel
-	Id          string                  `db:"id" json:"id"`
-	Title       string                  `db:"title" json:"title"`
-	Description string                  `db:"description" json:"description"`
-	Price       int                     `db:"price" json:"price"`
-	SellPrice   int                     `db:"sellPrice" json:"sellPrice"`
-	Images      types.JsonArray[string] `db:"images" json:"images"`
-	Status      ItemStatus              `db:"status" json:"status"`
+	Id               string                  `db:"id" json:"id"`
+	Title            string                  `db:"title" json:"title"`
+	Description      string                  `db:"description" json:"description"`
+	ShortDescription string                  `db:"shortDesc" json:"shortDesc"`
+	Price            int                     `db:"price" json:"price"`
+	SellPrice        int                     `db:"sellPrice" json:"sellPrice"`
+	Images           types.JsonArray[string] `db:"images" json:"images"`
+	Status           ItemStatus              `db:"status" json:"status"`
 }
 
 var _ models.Model = (*Item)(nil)

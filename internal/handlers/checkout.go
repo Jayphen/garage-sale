@@ -99,7 +99,7 @@ func sendConfirmationEmail(e *core.ServeEvent) func(echo.Context) error {
 
 		fmt.Println(urlBase)
 
-		html := fmt.Sprintf("Hello my friend! Please click this link to verify your order: %s/confirm/%s", urlBase, encodedToken)
+		html := fmt.Sprintf("Hello my friend! Please click this link to verify your order: <a href='%s/confirm/%s'>I wanna buy those items please</a>", urlBase, encodedToken)
 
 		fmt.Println(html)
 

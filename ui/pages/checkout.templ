@@ -24,8 +24,10 @@ templ Checkout(c *model.ExpandedCart) {
     <h2>Your lovely items</h2>
     for _, i := range c.CartItems {
     <div class="cart-item">
-      for _, im := range i.Images {
+      for index, im := range i.Images {
+      if index == 0 {
       <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
+      }
       }
       <div class="item-detail">
         <span class="item-title">{ i.Title }</span>
