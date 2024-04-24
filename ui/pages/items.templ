@@ -33,7 +33,9 @@ templ ItemCard(i *model.Item) {
   <div>
     for index, im := range i.Images {
     if index == 0 {
-    <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x200", "items" , i.Id, im) } alt="" />
+    <a href={ templ.URL(fmt.Sprintf("/items/%s", i.Id)) } hx-boost>
+      <img src={ fmt.Sprintf("/api/files/%s/%s/%s?thumb=0x400", "items" , i.Id, im) } alt="" />
+    </a>
     }
     }
     <header>
