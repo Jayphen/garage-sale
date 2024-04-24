@@ -41,6 +41,7 @@ func NewExpandedCartFromCart(cart Cart, items []*models.Record) ExpandedCart {
 			Images:    item.GetStringSlice("images"),
 			MinPrice:  item.GetInt("minPrice"),
 			MaxPrice:  item.GetInt("maxPrice"),
+			Status:    ItemStatus(item.GetString("status")),
 		}
 
 		cartItem.Price = cartItem.CalculateCurrentPrice()

@@ -152,6 +152,9 @@ func confirmToken(e *core.ServeEvent) func(echo.Context) error {
 
 		// set cart items to sold
 		for _, item := range expandedCart.CartItems {
+			if item.Status == "sold" {
+				return echo.NewHTTPError(500, fmt.Sprintf("Oh no, someone was faster than you and bought %s already.", item.Title))
+			}
 			item.SetItemStatus(e.App.Dao(), "sold")
 		}
 
