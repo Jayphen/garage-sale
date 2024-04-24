@@ -131,18 +131,29 @@ func confirmToken(e *core.ServeEvent) func(echo.Context) error {
 			return echo.NewHTTPError(500, "Your link seems to be invalid")
 		}
 
+		// set to used
+		tokenRecord.Set("used", true)
+		e.App.Dao().SaveRecord(tokenRecord)
+
+		// get the cart
 		cartRecord, err := model.GetExistingCartRecord(e.App.Dao(), tokenRecord.Get("cartId").(string))
 		if err != nil {
 			fmt.Errorf(err.Error())
 			return echo.NewHTTPError(500, "Something went wrong")
 		}
 
+		// expand the cart items
 		cart := model.Cart{
 			Id:        cartRecord.GetString("id"),
 			CartItems: cartRecord.GetStringSlice("cartItems"),
 		}
 		e.App.Dao().ExpandRecord(cartRecord, []string{"cartItems"}, nil)
 		expandedCart := model.NewExpandedCartFromCart(cart, cartRecord.ExpandedAll("cartItems"))
+
+		// set cart items to sold
+		for _, item := range expandedCart.CartItems {
+			item.SetItemStatus(e.App.Dao(), "sold")
+		}
 
 		return utils.Render(c, 200, pages.Confirm(expandedCart))
 	}

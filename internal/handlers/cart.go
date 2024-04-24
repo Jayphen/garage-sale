@@ -26,7 +26,7 @@ func addToCart(e *core.ServeEvent) func(echo.Context) error {
 	return func(c echo.Context) error {
 		itemId := c.FormValue("itemId")
 
-		item, err := (&model.Item{}).FindItemById(e.App.Dao(), itemId)
+		item, err := (&model.Item{Id: itemId}).FindItemById(e.App.Dao())
 		if err != nil {
 			fmt.Println(err)
 			return err

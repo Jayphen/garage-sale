@@ -43,8 +43,8 @@ templ ItemCard(i *model.Item) {
   </div>
   <div class="actions">
     <div class="stack">
-      if i.Status == "frozen" {
-      @components.FrozenPrice(components.ItemPrice{
+      if i.Status == "sold" {
+      @components.SoldPrice(components.ItemPrice{
       Id: i.Id,
       Price: i.SellPrice,
       })

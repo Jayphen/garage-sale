@@ -93,6 +93,13 @@ body {
     line-height: var(--font-lineheight-2);
     position: relative;
 
+    &[data-item-status="sold"] {
+      opacity: 0.5;
+      header {
+        text-decoration: line-through;
+      }
+    }
+
     header a {
       color: var(--gray-12);
     }

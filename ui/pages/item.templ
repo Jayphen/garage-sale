@@ -18,8 +18,8 @@ templ ItemPage(i *model.Item, cartSize int) {
       <h1>{ i.Title }</h1>
       <p>{ i.Description }</p>
     </header>
-    if i.Status == "frozen" {
-    @components.FrozenPrice(components.ItemPrice{
+    if i.Status == "sold" {
+    @components.SoldPrice(components.ItemPrice{
     Id: i.Id,
     Price: i.SellPrice,
     })

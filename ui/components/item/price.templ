@@ -14,9 +14,9 @@ templ Price(i ItemPrice) {
 </p>
 }
 
-templ FrozenPrice(i ItemPrice) {
+templ SoldPrice(i ItemPrice) {
 <p class="price reserved">
-  Reserved at: <span class="val">€{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</span>
+  Sold at: <span class="val">€{ strconv.FormatFloat(float64(i.Price) / 100.0, 'f', 2, 64) }</span>
 </p>
 }
 

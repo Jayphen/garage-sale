@@ -67,9 +67,9 @@ func (item *Item) GetItems(dao *daos.Dao) ([]*Item, error) {
 	return items, nil
 }
 
-func (item *Item) FindItemById(dao *daos.Dao, id string) (*Item, error) {
+func (item *Item) FindItemById(dao *daos.Dao) (*Item, error) {
 	err := ItemQuery(dao).
-		AndWhere(dbx.HashExp{"id": id}).
+		AndWhere(dbx.HashExp{"id": item.Id}).
 		One(item)
 	if err != nil {
 		return nil, err
@@ -78,15 +78,15 @@ func (item *Item) FindItemById(dao *daos.Dao, id string) (*Item, error) {
 	return item, nil
 }
 
-func (item *Item) SetItemStatus(dao *daos.Dao, id string, status ItemStatus) error {
-	record, err := dao.FindRecordById("items", id)
+func (item *Item) SetItemStatus(dao *daos.Dao, status ItemStatus) error {
+	record, err := dao.FindRecordById("items", item.Id)
 	if err != nil {
 		return err
 	}
 
 	record.Set("status", string(status))
 
-	if string(status) == "frozen" {
+	if string(status) == "sold" {
 		record.Set("sellPrice", record.Get("price"))
 	}
 

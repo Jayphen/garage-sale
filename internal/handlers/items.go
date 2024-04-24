@@ -37,7 +37,7 @@ func ItemGet(e *core.ServeEvent) func(echo.Context) error {
 	return func(c echo.Context) error {
 		id := c.PathParam("id")
 
-		item, err := (&model.Item{}).FindItemById(e.App.Dao(), id)
+		item, err := (&model.Item{Id: id}).FindItemById(e.App.Dao())
 		if err != nil {
 			return err
 		}
@@ -50,7 +50,7 @@ func ItemPriceGet(e *core.ServeEvent) func(echo.Context) error {
 	return func(c echo.Context) error {
 		id := c.PathParam("id")
 
-		item, err := (&model.Item{}).FindItemById(e.App.Dao(), id)
+		item, err := (&model.Item{Id: id}).FindItemById(e.App.Dao())
 		if err != nil {
 			return err
 		}
@@ -71,13 +71,13 @@ func ItemStatusSet(e *core.ServeEvent) func(echo.Context) error {
 			return err
 		}
 
-		err := (&model.Item{}).SetItemStatus(e.App.Dao(), id, status)
+		err := (&model.Item{Id: id}).SetItemStatus(e.App.Dao(), status)
 		if err != nil {
 			fmt.Println("Error setting item status:", err)
 			return err
 		}
 
-		item, err := (&model.Item{}).FindItemById(e.App.Dao(), id)
+		item, err := (&model.Item{Id: id}).FindItemById(e.App.Dao())
 		if err != nil {
 			return err
 		}
