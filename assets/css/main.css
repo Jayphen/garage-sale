@@ -304,6 +304,9 @@ body {
     font-size: var(--font-size-1);
     gap: var(--size-3);
     margin-bottom: var(--size-2);
+    span {
+      display: none;
+    }
     * {
       font-size: var(--font-size-1);
     }
