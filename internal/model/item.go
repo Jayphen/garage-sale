@@ -60,7 +60,7 @@ func ItemQuery(dao *daos.Dao) *dbx.SelectQuery {
 func (item *Item) GetItems(dao *daos.Dao) ([]*Item, error) {
 	var items []*Item
 
-	err := ItemQuery(dao).OrderBy("created asc").All(&items)
+	err := ItemQuery(dao).OrderBy("created desc").All(&items)
 	if err != nil {
 		return nil, err
 	}
