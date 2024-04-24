@@ -10,6 +10,7 @@ import (
 templ ItemsPage(items []*model.Item, cartSize int) {
 @layouts.Layout_base(cartSize) {
 <h1>Buy my things</h1>
+<img src="/assets/img/buy-things.webp" class="buy-things" />
 <p class="intro">
   <strong>How this works:</strong> the opening hours of the store are 09:00-21:00. Prices drop every 2 seconds, and
   reset every evening. When you
