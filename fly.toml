@@ -22,3 +22,8 @@ primary_region = 'ams'
 
 [[vm]]
   size = 'shared-cpu-1x'
+
+[http_service.concurrency]
+  hard_limit = 250
+  soft_limit = 200
+  type = "connections"
