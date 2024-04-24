@@ -6,7 +6,7 @@ import "garagesale.jayphen.dev/ui/layouts"
 import "garagesale.jayphen.dev/ui/components/item"
 
 templ ItemPage(i *model.Item, cartSize int, open bool) {
-@layouts.Layout_base(cartSize) {
+@layouts.Layout_base(cartSize, i.Title) {
 <main class="item-page">
   <div class="imagery">
     for _, im := range i.Images {
@@ -16,12 +16,11 @@ templ ItemPage(i *model.Item, cartSize int, open bool) {
   <div class="key-info">
     <header>
       <h1>{ i.Title }</h1>
-    if i.Description != "" {
-      <p>{ i.Description }</p> 
+      if i.Description != "" {
+      <p>{ i.Description }</p>
       } else {
       <p>{ i.ShortDescription }</p>
       }
-
     </header>
     if i.Status == "sold" {
     @components.SoldPrice(components.ItemPrice{

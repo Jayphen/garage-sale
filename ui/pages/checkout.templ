@@ -6,7 +6,7 @@ import "fmt"
 import "garagesale.jayphen.dev/ui/components/item"
 
 templ Checkout(c *model.ExpandedCart) {
-@layouts.Layout_base(c.CartSize) {
+@layouts.Layout_base(c.CartSize, "Jayphen's Garage Sale - Checkout") {
 <main class="checkout">
   <header>
     <h1>Checkout</h1>
