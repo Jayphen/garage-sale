@@ -50,7 +50,9 @@ templ ItemCard(i *model.Item) {
       Id: i.Id,
       Price: i.SellPrice,
       })
-      } else {
+      } else if i.Status == "soon" {
+      <p class="soon">Coming soon - check back later</p>
+      } else if i.Status == "available" {
       @components.Price(components.ItemPrice{
       Id: i.Id,
       Price: i.Price,

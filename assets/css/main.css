@@ -134,6 +134,10 @@ body {
     }
   }
 
+  .soon {
+    font-style: italic;
+  }
+
   .price.reserved {
     color: var(--gray-6);
     text-align: center;
