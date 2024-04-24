@@ -16,7 +16,12 @@ templ ItemPage(i *model.Item, cartSize int) {
   <div class="key-info">
     <header>
       <h1>{ i.Title }</h1>
-      <p>{ i.Description }</p>
+    if i.Description != "" {
+      <p>{ i.Description }</p> 
+      } else {
+      <p>{ i.ShortDescription }</p>
+      }
+
     </header>
     if i.Status == "sold" {
     @components.SoldPrice(components.ItemPrice{
