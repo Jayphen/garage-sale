@@ -19,7 +19,6 @@
   src: url(/assets/fonts/lora.ttf) format("truetype");
 }
 
-
 button {
   text-shadow: 0;
   appearance: none;
@@ -35,8 +34,8 @@ h1 {
   color: var(--stone-12);
 }
 img.buy-things {
- width: 40ch; 
- margin: var(--size-2) auto;
+  width: 40ch;
+  margin: var(--size-2) auto;
 }
 h2 {
   font-family: var(--font-serif);
@@ -49,6 +48,24 @@ h2 {
 
 .intro {
   margin: 0 auto;
+  width: max-content;
+
+  p {
+    font-size: var(--font-size-1);
+  }
+
+  > * + * {
+    margin-top: var(--size-3);
+  }
+
+  .early-close {
+    padding: var(--size-2);
+    background: var(--cyan-1);
+    color: var(--cyan-9);
+    font-weight: var(--font-weight-5);
+    border-radius: var(--radius-2);
+    text-align: center;
+  }
 }
 .spiel {
   justify-content: center;

@@ -11,12 +11,20 @@ templ ItemsPage(items []*model.Item, cartSize int, open bool) {
 @layouts.Layout_base(cartSize, "Jayphen's Garage Sale, everything must go") {
 <h1>Buy my things</h1>
 <img src="/assets/img/buy-things.webp" class="buy-things" />
-<p class="intro">
-  <strong>How this works:</strong> the opening hours of the store are 09:00-21:00. Prices drop every 2 seconds, and
-  reset every evening. When you
-  click buy, you lock in that price. You could wait for it to get cheaper, but someone else might snap up that sweet
-  item that you desired. I would recommend buying things at the highest price possible, just to be safe.
-</p>
+<div class="intro">
+  <p>
+    <strong>How this works:</strong> the opening hours of the store are (usually) 09:00-21:00. Prices drop every 5
+    seconds, and
+    reset every evening. When you
+    click buy, you lock in that price. You could wait for it to get cheaper, but someone else might snap up that sweet
+    item that you desired. I would recommend buying things at the highest price possible, just to be safe.
+  </p>
+  <p>
+    If you are not in Vienna, please double check with me before buying something that is bigger than roughly hamster
+    size. You can email me at berghain AT jayphen dot com.
+  </p>
+  <p class="early-close">The store closes at 16:00 on Fridays so the shopkeeper can go to the pub.</p>
+</div>
 @ItemsList(items, open)
 }
 }
