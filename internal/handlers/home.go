@@ -15,7 +15,7 @@ import (
 
 const (
 	operationalStartHour = 7
-	operationalEndHour   = 19
+	operationalEndHour   = 14
 )
 
 func RegisterHomeHandlers(app *pocketbase.PocketBase) {

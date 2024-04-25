@@ -10,7 +10,7 @@ import (
 )
 
 func resetPricing(app *pocketbase.PocketBase, scheduler *cron.Cron) {
-	frequency := "10 19 * * *"
+	frequency := "10 14 * * *"
 
 	scheduler.MustAdd("pricingReset", frequency, func() {
 		app.Dao().DB().NewQuery("UPDATE items SET price = maxPrice").
@@ -19,7 +19,7 @@ func resetPricing(app *pocketbase.PocketBase, scheduler *cron.Cron) {
 }
 
 func decPricingTick() error {
-	const operationalEndHour = 19
+	const operationalEndHour = 14
 	const operationalStartHour = 7
 	const operationalHours = operationalEndHour - operationalStartHour
 
