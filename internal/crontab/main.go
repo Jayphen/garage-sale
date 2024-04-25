@@ -15,7 +15,7 @@ const (
 )
 
 func RegisterCronJobs(app *pocketbase.PocketBase) {
-	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+	app.OnAfterBootstrap().Add(func(e *core.BootstrapEvent) error {
 		scheduler := cron.New()
 
 		resetPricing(app, scheduler)
