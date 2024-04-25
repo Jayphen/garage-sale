@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"sync"
+
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
@@ -23,10 +25,14 @@ func SendMessage(message string) {
 
 // sseHandler handles new client connections for SSE
 func RegisterSSEHandlers(app *pocketbase.PocketBase) {
+	var mutex sync.RWMutex
+
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.GET("events", func(c echo.Context) error {
 			client := Client{channel: make(chan string)}
+			mutex.Lock()
 			clients[client] = true
+			mutex.Unlock()
 
 			c.Response().Header().Set(echo.HeaderContentType, "text/event-stream")
 			c.Response().Header().Set(echo.HeaderCacheControl, "no-cache")
@@ -34,7 +40,9 @@ func RegisterSSEHandlers(app *pocketbase.PocketBase) {
 
 			// When the client closes the connection, remove them from the clients map
 			defer func() {
+				mutex.Lock()
 				delete(clients, client)
+				mutex.Unlock()
 				close(client.channel)
 			}()
 
